@@ -1,6 +1,17 @@
-import { login, signup } from './actions'
+import { login, signInWithMagicLink } from './actions'
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+
+    const supabase = await createClient();
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session) {
+        redirect("/bottles");
+    }
     return (
         <main className="flex min-h-screen items-center justify-center bg-gray-50">
             <form className="w-full max-w-sm space-y-4 rounded-lg bg-white p-6 shadow">
@@ -18,28 +29,31 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium">Mot de passe</label>
+                    <label htmlFor="password" className="block text-sm font-medium">
+                        Mot de passe <span className="text-gray-400">(facultatif si lien magique)</span>
+                    </label>
                     <input
                         id="password"
                         name="password"
                         type="password"
-                        required
                         className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
                     />
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                     <button
                         formAction={login}
-                        className="flex-1 rounded-md bg-black px-4 py-2 text-white"
+                        className="w-full rounded-md bg-black px-4 py-2 text-white"
                     >
-                        Log in
+                        Se connecter
                     </button>
+
                     <button
-                        formAction={signup}
-                        className="flex-1 rounded-md border px-4 py-2"
+                        formAction={signInWithMagicLink}
+                        className="w-full rounded-md border px-4 py-2"
+                        title="Recevoir un lien de connexion par email"
                     >
-                        Sign up
+                        Envoyer un lien magique ✉️
                     </button>
                 </div>
             </form>
