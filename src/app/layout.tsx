@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -19,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "My wine cellar",
     description: "By Loona & Julien",
+    icons: {
+        icon: "/wine.svg",
+    },
 };
 
 export default async function RootLayout({
@@ -34,7 +36,7 @@ export default async function RootLayout({
     return (
         <html lang="fr">
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
         >
         {session && (
             <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
@@ -51,7 +53,12 @@ export default async function RootLayout({
                 </form>
             </header>
         )}
-        <main>{children}</main>
+
+        <main className="flex-1">{children}</main>
+
+        <footer className="border-t px-6 py-4 text-center text-sm text-gray-500 bg-gray-50">
+            Fait avec ❤️ par Loona
+        </footer>
         </body>
         </html>
     );
