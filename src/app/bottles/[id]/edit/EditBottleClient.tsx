@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { useActionState, useEffect, useState } from 'react'
 import { updateBottle, deleteBottle } from './actions'
+import { Bottle } from '@/app/lib/definitions';
 
-// Client component for form interactivity
-export default function EditBottleClient({ id, bottle }: { id: string; bottle: any }) {
+export default function EditBottleClient({ id, bottle }: { id: string; bottle: Bottle }) {
     const update = updateBottle.bind(null, id)
     const [state, formAction] = useActionState(update, { error: null as string | null })
     const [deleting, setDeleting] = useState(false)

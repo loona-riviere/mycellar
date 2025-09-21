@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/utils/supabase/server'
+import { ActionState } from '@/app/lib/definitions';
 
 const Schema = z.object({
     name: z.string().min(1, 'Nom requis'),
@@ -36,7 +37,7 @@ const Schema = z.object({
         .refine(v => v == null || (Number.isInteger(v) && v >= 0 && v <= 5), 'Note 0..5'),
 })
 
-export async function updateBottle(id: string, _prevState: any, formData: FormData) {
+export async function updateBottle(id: string, _prevState: ActionState, formData: FormData) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { error: 'Non authentifié' }
@@ -44,6 +45,7 @@ export async function updateBottle(id: string, _prevState: any, formData: FormDa
     let parsed
     try {
         parsed = Schema.parse(Object.fromEntries(formData.entries()))
+        // eslint-disable-next-line
     } catch (e: any) {
         return { error: e.message ?? 'Formulaire invalide' }
     }

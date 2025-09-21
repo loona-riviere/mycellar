@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
-import { BadgeCheck, Pencil } from 'lucide-react'
+import { MessageCircle, Pencil } from 'lucide-react'
 import MarkConsumedButton from './MarkConsumedButton'
 
 export default async function BottlesPage() {
@@ -65,7 +65,12 @@ export default async function BottlesPage() {
                                 </Link>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-600 italic">{b.comm && <span> Commentaires : {b.comm}</span>}</p>
+                        {b.comm &&
+                            <div className="flex items-center gap-2">
+                                <MessageCircle className="h-3 w-3"/>
+                                <p className="text-sm text-gray-600 italic">Commentaires : {b.comm}</p>
+                             </div>
+                        }
 
                         <p className="mt-1 text-xs text-gray-400">
                             Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}
@@ -74,7 +79,7 @@ export default async function BottlesPage() {
                 ))}
             </ul>
 
-            <Link href="/bottles/finished" className="text-sm underline text-gray-600 flex justify-center">
+            <Link href="/bottles/finished" className="text-sm underline text-gray-600 flex justify-center mt-8">
                 Voir les terminées
             </Link>
 

@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/utils/supabase/server'
+import { ActionState } from '@/app/lib/definitions';
 
 const Schema = z.object({
     name: z.string().min(1),
@@ -25,7 +26,7 @@ const Schema = z.object({
         .refine(v => v == null || (Number.isInteger(v) && v >= 0 && v <= 5), 'Note 0..5'),
 })
 
-export async function createBottle(_: any, formData: FormData) {
+export async function createBottle(_: ActionState, formData: FormData) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { error: 'Non authentifié' }
