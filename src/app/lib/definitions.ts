@@ -2,7 +2,7 @@ export type Bottle = {
     name: string;
     producer?: string;
     region?: string;
-    color: 'rouge' | 'rosé' | 'blanc' | 'pétillant';
+    color: 'red' | 'white' | 'rose' | 'sparkling';
     grapes?: string;
     comm?: string;
     year: number;
@@ -13,3 +13,11 @@ export type Bottle = {
 export type ActionState = {
     error: string | null;
 };
+
+export const labelColors: Record<string, string> = {
+    red: "Rouge",
+    white: "Blanc",
+    rose: "Rosé",
+    sparkling: "Pétillant",
+}
+

@@ -2,6 +2,13 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { MessageCircle, Pencil } from 'lucide-react'
 import MarkConsumedButton from './MarkConsumedButton'
+import { labelColors } from '@/app/lib/definitions';
+
+function pluralize(count: number, singular: string, plural?: string) {
+    if (count <= 1) return `${count} ${singular}`
+    return `${count} ${plural ?? singular + 's'}`
+}
+
 
 export default async function BottlesPage() {
     const supabase = await createClient()
@@ -15,6 +22,15 @@ export default async function BottlesPage() {
     if (error) {
         return <main className="p-6">Erreur : {error.message}</main>
     }
+
+    const counts = bottles?.reduce(
+        (acc, b) => {
+            if (!b.color) return acc
+            acc[b.color] = (acc[b.color] || 0) + 1
+            return acc
+        },
+        {} as Record<string, number>
+    )
 
     return (
         <main className="max-w-3xl mx-auto p-6">
@@ -32,6 +48,32 @@ export default async function BottlesPage() {
                 <p className="text-gray-500">Aucune bouteille pour l’instant.</p>
             )}
 
+            {(!bottles || bottles.length > 0) && (
+                <div className="mt-2 text-sm text-gray-600">
+                    En stock :
+                    {counts.red > 0 && (
+                        <span className="ml-2">
+                            🍷 {pluralize(counts.red, "rouge", "rouges")}
+                        </span>
+                    )}
+                    {counts.white > 0 && (
+                        <span className="ml-2">
+                            🥂 {pluralize(counts.white, "blanc", "blancs")}
+                        </span>
+                    )}
+                    {counts.rose > 0 && (
+                        <span className="ml-2">
+                            🌸 {pluralize(counts.rose, "rosé", "rosés")}
+                        </span>
+                    )}
+                    {counts.sparkling > 0 && (
+                        <span className="ml-2">
+                            🍾 {pluralize(counts.sparkling, "pétillant", "pétillants")}
+                        </span>
+                    )}
+                </div>
+            )}
+
             <ul className="space-y-4">
                 {bottles?.map((b) => (
                     <li
@@ -46,7 +88,7 @@ export default async function BottlesPage() {
                                 <p className="text-sm text-gray-600">
                                     {b.producer && <span>{b.producer} · </span>}
                                     {b.region && <span>{b.region} · </span>}
-                                    {b.color && <span>{b.color} · </span>}
+                                    {b.color && <span>{labelColors[b.color]} · </span>}
                                     {b.grapes && <span>{b.grapes} · </span>}
                                 </p>
                             </div>
@@ -54,14 +96,14 @@ export default async function BottlesPage() {
                                 <span className="text-sm text-gray-700 font-medium">
                                     {b.price != null ? `${Number(b.price).toFixed(2)} €` : '—'}
                                 </span>
-                                <MarkConsumedButton bottleId={b.id} />
+                                <MarkConsumedButton bottleId={b.id}/>
 
                                 <Link
                                     href={`/bottles/${b.id}/edit`}
                                     className="text-gray-500 hover:text-black"
                                     title="Modifier"
                                 >
-                                    <Pencil className="h-4 w-4" />
+                                    <Pencil className="h-4 w-4"/>
                                 </Link>
                             </div>
                         </div>
@@ -69,7 +111,7 @@ export default async function BottlesPage() {
                             <div className="flex items-center gap-2">
                                 <MessageCircle className="h-3 w-3"/>
                                 <p className="text-sm text-gray-600 italic">Commentaires : {b.comm}</p>
-                             </div>
+                            </div>
                         }
 
                         <p className="mt-1 text-xs text-gray-400">

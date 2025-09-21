@@ -77,10 +77,10 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                             className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
                         >
                             <option value="">—</option>
-                            <option value="rouge">Rouge</option>
-                            <option value="blanc">Blanc</option>
-                            <option value="rosé">Rosé</option>
-                            <option value="pétillant">Pétillant</option>
+                            <option value="red">Rouge</option>
+                            <option value="white">Blanc</option>
+                            <option value="rose">Rosé</option>
+                            <option value="sparkling">Pétillant</option>
                         </select>
                     </div>
                     <div>

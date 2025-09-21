@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { Pencil, Star } from 'lucide-react'
+import { labelColors } from '@/app/lib/definitions';
 
 export default async function FinishedBottlesPage() {
     const supabase = await createClient()
@@ -63,7 +64,7 @@ export default async function FinishedBottlesPage() {
                                 <p className="text-sm text-gray-600">
                                     {b.producer && <span>{b.producer} · </span>}
                                     {b.region && <span>{b.region} · </span>}
-                                    {b.color && <span>{b.color} ·  </span>}
+                                    {b.color && <span>{labelColors[b.color]} ·  </span>}
                                     {b.grapes && <span>{b.grapes} </span>}
                                 </p>
                                 {renderStars(b.rating)}

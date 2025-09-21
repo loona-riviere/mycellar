@@ -41,16 +41,16 @@ export default function NewBottlePage() {
                         <label className="block text-sm font-medium">Couleur *</label>
                         <select required name="color" className="mt-1 w-full rounded-md border px-3 py-2 text-sm">
                             <option value="">—</option>
-                            <option value="rouge">Rouge</option>
-                            <option value="blanc">Blanc</option>
-                            <option value="rosé">Rosé</option>
-                            <option value="pétillant">Pétillant</option>
+                            <option value="red">Rouge</option>
+                            <option value="white">Blanc</option>
+                            <option value="rose">Rosé</option>
+                            <option value="sparkling">Pétillant</option>
                         </select>
                     </div>
                     <div>
                         <label className="block text-sm font-medium">Cépages</label>
                         <input name="grapes" className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-                            placeholder="Pinot noir, Chardonnay…" />
+                               placeholder="Pinot noir, Chardonnay…"/>
                     </div>
                 </div>
 
