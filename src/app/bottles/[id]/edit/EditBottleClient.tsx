@@ -29,7 +29,6 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                 action={formAction}
                 className="grid grid-cols-1 gap-4 bg-white p-5 rounded-lg border shadow-sm"
             >
-                {/* Nom */}
                 <div>
                     <label className="block text-sm font-medium">Nom *</label>
                     <input
@@ -40,11 +39,11 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     />
                 </div>
 
-                {/* Année + Prix */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium">Année</label>
+                        <label className="block text-sm font-medium">Millésime *</label>
                         <input
+                            required
                             type="number"
                             name="year"
                             step={1}
@@ -67,10 +66,9 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     </div>
                 </div>
 
-                {/* Couleur + Producteur */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium">Couleur</label>
+                        <label className="block text-sm font-medium">Couleur *</label>
                         <select
                             name="color"
                             defaultValue={bottle.color ?? ''}
@@ -116,7 +114,6 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     </div>
                 </div>
 
-                {/* Checkbox Consumed */}
                 <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
@@ -144,7 +141,6 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     />
                 </div>
 
-                {/* Commentaires */}
                 <div>
                     <label className="block text-sm font-medium">Commentaires</label>
                     <textarea
@@ -156,10 +152,8 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     />
                 </div>
 
-                {/* Error */}
                 {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
-                {/* Buttons */}
                 <div className="flex items-center gap-3">
                     <button className="rounded-md bg-black px-4 py-2 text-white">Enregistrer</button>
                     <Link href="/bottles" className="rounded-md border px-4 py-2">
