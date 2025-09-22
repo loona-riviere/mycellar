@@ -9,7 +9,7 @@ export default async function FinishedBottlesPage() {
     const { data: bottles, error } = await supabase
         .from('bottles')
         .select(
-            'id, name, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, updated_at'
+            'id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, updated_at'
         )
         .eq('consumed', true)
         .order('updated_at', { ascending: false })
@@ -59,7 +59,8 @@ export default async function FinishedBottlesPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex-1">
                                 <h2 className="text-lg font-medium">
-                                    {b.name} {b.year && <span className="text-gray-500">({b.year})</span>}
+                                    {b.estate ? `${b.estate} — ${b.name}` : b.name}
+                                    {b.year && <span className="text-gray-500"> ({b.year})</span>}
                                 </h2>
                                 <p className="text-sm text-gray-600">
                                     {b.producer && <span>{b.producer} · </span>}

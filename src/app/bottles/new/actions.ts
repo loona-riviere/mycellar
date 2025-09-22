@@ -7,6 +7,7 @@ import { ActionState } from '@/app/lib/definitions';
 
 const Schema = z.object({
     name: z.string().min(1),
+    estate: z.string().optional(),
     producer: z.string().optional(),
     region: z.string().optional(),
     color: z.string().optional(),
@@ -40,6 +41,7 @@ export async function createBottle(_: ActionState, formData: FormData) {
     const { error } = await supabase.from('bottles').insert({
         user_id: user.id,
         name: data.name,
+        estate: data.estate,
         producer: data.producer ?? null,
         region: data.region ?? null,
         color: data.color ?? null,

@@ -20,13 +20,17 @@ export default function NewBottlePage() {
                 action={formAction}
                 className="grid grid-cols-1 gap-4 bg-white p-5 rounded-lg border shadow-sm"
             >
-                <div>
-                    <label className="block text-sm font-medium">Nom *</label>
-                    <input
-                        name="name"
-                        required
-                        className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-                    />
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium">Domaine / Château</label>
+                        <input name="estate" className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                               placeholder="Château La Tour Carnet"/>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Cuvée / Nom du vin *</label>
+                        <input name="name" required className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                               placeholder="Grand Cru Classé, Vieilles Vignes…" />
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

@@ -15,7 +15,7 @@ export default async function BottlesPage() {
 
     const { data: bottles, error } = await supabase
         .from('bottles')
-        .select('id, name, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating')
+        .select('id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating')
         .eq('consumed', false)
         .order('created_at', { ascending: false })
 
@@ -83,7 +83,8 @@ export default async function BottlesPage() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <h2 className="text-lg font-medium">
-                                    {b.name} {b.year && <span className="text-gray-500">({b.year})</span>}
+                                    {b.estate ? `${b.estate} — ${b.name}` : b.name}
+                                    {b.year && <span className="text-gray-500"> ({b.year})</span>}
                                 </h2>
                                 <p className="text-sm text-gray-600">
                                     {b.producer && <span>{b.producer} · </span>}

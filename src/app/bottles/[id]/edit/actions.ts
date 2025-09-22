@@ -7,6 +7,7 @@ import { ActionState } from '@/app/lib/definitions';
 
 const Schema = z.object({
     name: z.string().min(1, 'Nom requis'),
+    estate: z.string().optional(),
     producer: z.string().optional(),
     region: z.string().optional(),
     color: z.string().optional(),
@@ -55,6 +56,7 @@ export async function updateBottle(id: string, _prevState: ActionState, formData
 
     const payload = {
         name: parsed.name,
+        estate: parsed.estate ?? null,
         producer: parsed.producer ?? null,
         region: parsed.region ?? null,
         color: parsed.color ?? null,

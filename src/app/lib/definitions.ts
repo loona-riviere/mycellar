@@ -1,5 +1,6 @@
 export type Bottle = {
     name: string;
+    estate: string;
     producer?: string;
     region?: string;
     color: 'red' | 'white' | 'rose' | 'sparkling';
