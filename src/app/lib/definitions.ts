@@ -1,4 +1,5 @@
 export type Bottle = {
+    id: string;
     name: string;
     estate: string;
     producer?: string;
@@ -10,7 +11,7 @@ export type Bottle = {
     max_year: number;
     price?: number;
     consumed: false;
-    rating?: 0 | 1 | 2 | 3 | 4 | 5;
+    rating: number | null;
 }
 export type ActionState = {
     error: string | null;

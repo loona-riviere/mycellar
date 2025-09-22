@@ -6,12 +6,8 @@ import MarkConsumedButton from '@/app/components/MarkConsumedButton'
 import { Bottle, labelColors } from '@/app/lib/definitions'
 import SortSelect from '@/app/components/SortSelect';
 import StockSummary from '../components/StockSummary'
+import BottleList from '../components/BottleList'
 
-function pluralize(count: number, singular: string, plural?: string) {
-    if (!count) return `0 ${plural ?? singular + 's'}`
-    if (count === 1) return `1 ${singular}`
-    return `${count} ${plural ?? singular + 's'}`
-}
 
 function getColorExpirationDate(b: Bottle): string {
     if (!b.max_year) return ''
@@ -22,6 +18,22 @@ function getColorExpirationDate(b: Bottle): string {
     if (yearsLeft >= 0) return 'bg-red-100 text-red-700'
     return 'bg-gray-200 text-gray-500 line-through'
 }
+
+function getColorChip(color?: Bottle['color']): { className: string; label: string } | null {
+    switch (color) {
+        case 'red':
+            return { className: 'bg-rose-100 text-rose-800', label: 'Rouge' }
+        case 'white':
+            return { className: 'bg-amber-100 text-amber-800', label: 'Blanc' }
+        case 'rose':
+            return { className: 'bg-pink-100 text-pink-800', label: 'Rosé' }
+        case 'sparkling':
+            return { className: 'bg-cyan-100 text-cyan-800', label: 'Pétillant' }
+        default:
+            return null
+    }
+}
+
 
 // --- logique de tri ---
 type SortKey =
@@ -112,64 +124,7 @@ export default async function BottlesPage({
                 </div>
             )}
 
-            <ul className="mt-4 space-y-4">
-                {bottles?.map((b) => (
-                    <li
-                        key={b.id}
-                        className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition"
-                    >
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h2 className="text-lg font-medium">
-                                    {b.estate ? `${b.estate} — ${b.name}` : b.name}
-                                    {b.year && <span className="text-gray-500"> ({b.year})</span>}
-                                </h2>
-                                <p className="text-sm text-gray-600">
-                                    {b.producer && <span>{b.producer} · </span>}
-                                    {b.region && <span>{b.region} · </span>}
-                                    {b.color && <span>{labelColors[b.color]} · </span>}
-                                    {b.grapes && <span>{b.grapes}</span>}
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-700 font-medium whitespace-nowrap">
-                                    {b.price != null ? `${Number(b.price).toFixed(2)} €` : '—'}
-                                </span>
-                                <MarkConsumedButton bottleId={b.id} />
-                                <Link
-                                    href={`/bottles/${b.id}/edit`}
-                                    className="text-gray-500 hover:text-black"
-                                    title="Modifier"
-                                >
-                                    <Pencil className="h-4 w-4" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {b.comm && (
-                            <div className="mt-1 flex items-center gap-2">
-                                <MessageCircle className="h-3 w-3" />
-                                <p className="text-sm text-gray-600 italic">Commentaires : {b.comm}</p>
-                            </div>
-                        )}
-
-                        <p className="mt-1 text-xs text-gray-400">
-                            Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}
-                        </p>
-
-                        {b.max_year && (
-                            <p className="mt-1 text-xs text-gray-500">
-                                <span
-                                    className={`inline-flex items-center rounded px-2 py-0.5 ${getColorExpirationDate(b)}`}
-                                    title="Année conseillée pour boire"
-                                >
-                                    À boire avant {b.max_year}
-                                </span>
-                            </p>
-                        )}
-                    </li>
-                ))}
-            </ul>
+            <BottleList bottles={bottles ?? []} variant="active" />
 
             <Link
                 href="/bottles/finished"
