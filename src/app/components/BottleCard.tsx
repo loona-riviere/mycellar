@@ -31,10 +31,15 @@ export default function BottleCard({ bottle: b, variant }: Props) {
             <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-gray-600">
                 <p>
                     {b.producer && <span>{b.producer} · </span>}
-                    {b.region && <span>{b.region} · </span>}
-                    {b.grapes && <span>{b.grapes}</span>}
+                    {b.region && <span>{b.region}</span>}
                 </p>
             </div>
+            {b.grapes &&
+                <div className="flex flex-wrap items-center gap-2">
+                    <p>
+                        <span className="text-xs text-gray-400">{b.grapes}</span>
+                    </p>
+                </div>}
             <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
                 {colorChip && (
                     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${colorChip.className}`}>
