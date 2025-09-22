@@ -6,6 +6,7 @@
   "background_color": "#ffffff",
   "theme_color": "#111111",
   "description": "Suivi de la cave à vin de Loona & Julien",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/manifest-icon-192.maskable.png",
