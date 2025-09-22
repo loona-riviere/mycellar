@@ -1,0 +1,137 @@
+'use client'
+
+import Link from 'next/link'
+import { useActionState, useState } from 'react'
+import type { BottleFormInput } from '../_schema'
+import type { ActionState } from './actions'
+
+type Props = {
+    mode: 'create' | 'edit'
+    initial: Partial<BottleFormInput>
+    onSubmit: (prev: ActionState, formData: FormData) => Promise<ActionState>
+    onDelete?: () => Promise<void>
+}
+
+const initialState: ActionState = { error: null }
+
+export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props) {
+    const [state, formAction] = useActionState(onSubmit, initialState)
+    const [deleting, setDeleting] = useState(false)
+
+    return (
+        <main className="max-w-2xl mx-auto p-6">
+            <div className="mb-4 flex items-center gap-3">
+                <h1 className="text-2xl font-semibold">
+                    {mode === 'create' ? 'Ajouter une bouteille' : 'Modifier la bouteille'}
+                </h1>
+                <Link href="/bottles" className="text-sm underline text-gray-600">← Retour</Link>
+            </div>
+
+            <form action={formAction} className="grid grid-cols-1 gap-4 bg-white p-5 rounded-lg border shadow-sm">
+                {/* Domaine / Nom */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium">Domaine / Château</label>
+                        <input name="estate" defaultValue={initial.estate ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Château…" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Cuvée / Nom du vin *</label>
+                        <input name="name" required defaultValue={initial.name ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Vieilles Vignes…" />
+                    </div>
+                </div>
+
+                {/* Millésime / Prix */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium">Millésime *</label>
+                        <input type="number" name="year" step={1} min={1900} max={2100} required defaultValue={initial.year ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Prix (€)</label>
+                        <input type="number" name="price" step="0.01" min="0" defaultValue={initial.price ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
+                    </div>
+                </div>
+
+                {/* À boire avant */}
+                <div>
+                    <label className="block text-sm font-medium">À boire avant (année)</label>
+                    <input type="number" name="max_year" step={1} min={1900} max={2100} defaultValue={initial.max_year ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="2028" />
+                </div>
+
+                {/* Couleur / Producteur */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium">Couleur *</label>
+                        <select name="color" defaultValue={initial.color ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm">
+                            <option value="">—</option>
+                            <option value="red">Rouge</option>
+                            <option value="white">Blanc</option>
+                            <option value="rose">Rosé</option>
+                            <option value="sparkling">Pétillant</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Producteur</label>
+                        <input name="producer" defaultValue={initial.producer ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Domaine…" />
+                    </div>
+                </div>
+
+                {/* Région / Cépages */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium">Région</label>
+                        <input name="region" defaultValue={initial.region ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Bourgogne…" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Cépages</label>
+                        <input name="grapes" defaultValue={initial.grapes ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Pinot noir…" />
+                    </div>
+                </div>
+
+                {/* Consommée / Note */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                        <input type="checkbox" id="consumed" name="consumed" defaultChecked={initial.consumed ?? false} className="h-4 w-4" />
+                        <label htmlFor="consumed" className="text-sm font-medium">Bouteille consommée</label>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">Note (0–5)</label>
+                        <input type="number" name="rating" min={0} max={5} step={1} defaultValue={initial.rating ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
+                    </div>
+                </div>
+
+                {/* Commentaires */}
+                <div>
+                    <label className="block text-sm font-medium">Commentaires</label>
+                    <textarea name="comm" rows={3} defaultValue={initial.comm ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Notes personnelles…" />
+                </div>
+
+                {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+
+                <div className="flex items-center gap-3">
+                    <button className="rounded-md bg-black px-4 py-2 text-white">
+                        {mode === 'create' ? 'Enregistrer' : 'Mettre à jour'}
+                    </button>
+                    <Link href="/bottles" className="rounded-md border px-4 py-2">Annuler</Link>
+                </div>
+            </form>
+
+            {mode === 'edit' && onDelete && (
+                <form
+                    action={async () => {
+                        try { setDeleting(true); await onDelete() } finally { setDeleting(false) }
+                    }}
+                    className="mt-4 flex justify-end"
+                >
+                    <button
+                        type="submit"
+                        className="rounded-md border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50"
+                        disabled={deleting}
+                    >
+                        {deleting ? 'Suppression…' : 'Supprimer'}
+                    </button>
+                </form>
+            )}
+        </main>
+    )
+}

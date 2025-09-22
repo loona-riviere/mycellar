@@ -1,25 +1,33 @@
-import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
-import EditBottleClient from './EditBottleClient'
+import BottleForm from '../../form/BottleForm'
+import { deleteBottle, updateBottle } from '@/app/bottles/actions';
 
-// Server Component to fetch data server-side and pass as props to the client component
-export default async function EditBottlePage({ params }: { params: { id: string } }) {
+export default async function EditBottlePage({
+                                                 params,
+                                             }: {
+    params: { id: string }
+}) {
+    const id = params.id
     const supabase = await createClient()
     const { data: bottle, error } = await supabase
         .from('bottles')
         .select('id, name, estate, year, max_year, price, color, producer, region, grapes, comm, consumed, rating')
-        .eq('id', params.id)
+        .eq('id', id)
         .single()
 
     if (error || !bottle) {
-        return (
-            <main className="max-w-2xl mx-auto p-6">
-                <p className="text-red-600">Bouteille introuvable.</p>
-                <Link href="/bottles" className="underline text-sm">← Retour</Link>
-            </main>
-        )
+        return <main className="max-w-2xl mx-auto p-6">Bouteille introuvable.</main>
     }
 
-    // Pass data to client component
-    return <EditBottleClient id={params.id} bottle={bottle} />
+    const onSubmit = updateBottle.bind(null, id)
+    const onDelete = deleteBottle.bind(null, id)
+
+    return (
+        <BottleForm
+            mode="edit"
+            initial={bottle}
+            onSubmit={onSubmit}
+            onDelete={onDelete}
+        />
+    )
 }
