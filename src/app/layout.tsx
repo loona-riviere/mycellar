@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { logout } from "@/app/logout/actions";
@@ -15,13 +15,28 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",   // ← pour occuper tout l’écran sur iOS (Dynamic Island, etc.)
+    themeColor: "#111111",
+};
+
 export const metadata: Metadata = {
     title: "My wine cellar",
     description: "By Loona & Julien",
+    manifest: "/manifest.json",
     icons: {
         icon: "/wine.svg",
+        apple: "/apple-touch-icon.png",
+    },
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "black-translucent",
+        title: "My wine cellar",
     },
 };
+
 
 export default async function RootLayout({
                                              children,
