@@ -27,9 +27,16 @@ export const metadata: Metadata = {
     description: "By Loona & Julien",
     manifest: "/manifest.json",
     icons: {
-        icon: "/wine.svg",
-        apple: "/apple-touch-icon.png",
+        icon: [
+            { url: "/favicon.ico" },
+            { url: "/pwa/icon-192.png", sizes: "192x192", type: "image/png" },
+            { url: "/pwa/icon-512.png", sizes: "512x512", type: "image/png" },
+            { url: "/wine-heart.svg", type: "image/svg+xml" },
+        ],
+        apple: "/apple-touch-icon.png", // ← ce fichier DOIT exister
     },
+
+
     appleWebApp: {
         capable: true,
         statusBarStyle: "default",
