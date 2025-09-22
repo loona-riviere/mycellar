@@ -1,29 +1,48 @@
 'use client'
 
 import Link, { LinkProps } from 'next/link'
-import React, { useState } from 'react'
+import React, { useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 
-type Props = LinkProps & {
-    className?: string
-    children: React.ReactNode
-    loadingText?: string
-}
+type Props = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> &
+    LinkProps & {
+        className?: string
+        children: React.ReactNode
+        loadingText?: string
+    }
 
 export default function LoadingLink({ className, children, loadingText = 'Ouverture…', ...props }: Props) {
-    const [loading, setLoading] = useState(false)
+    const router = useRouter()
+    const [isPending, startTransition] = useTransition()
+
+    // We emulate Link behavior but trigger navigation via router to control pending state
+    const { href, replace, scroll, prefetch, ...rest } = props
+
     return (
         <Link
-            {...props}
+            {...(rest as LinkProps)}
+            href={href}
+            prefetch={prefetch}
             className={className}
             onClick={(e) => {
-                if (loading) return
-                setLoading(true)
-                // let Next.js handle the navigation
+                // Prevent the default link navigation to manage with router and set pending
+                e.preventDefault()
+                if (isPending) return
+                startTransition(() => {
+                    // Use router to navigate programmatically
+                    if (replace) router.replace(href.toString())
+                    else router.push(href.toString())
+                    // Respect scroll option if provided
+                    if (scroll === false) {
+                        // Next.js router doesn't take scroll in push/replace in app router; fallback handled by Link normally.
+                        // No-op here.
+                    }
+                })
             }}
-            aria-busy={loading}
+            aria-busy={isPending}
             aria-live="polite"
         >
-            {loading ? loadingText : children}
+            {isPending ? loadingText : children}
         </Link>
     )
 }

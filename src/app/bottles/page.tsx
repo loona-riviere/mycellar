@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
 import { MessageCircle, Pencil, Plus } from 'lucide-react'
 import MarkConsumedButton from '@/app/components/MarkConsumedButton'
@@ -86,18 +87,18 @@ export default async function BottlesPage({
                 <h1 className="text-2xl font-semibold">🍷 Ma cave</h1>
                 <div className="flex items-center gap-3">
                     <SortSelect />
-                    <Link
+                    <LoadingLink
                         href="/bottles/new"
                         prefetch
                         className="inline-flex items-center rounded-md bg-black text-white
-                 p-2 sm:px-4 sm:py-2 hover:bg-gray-800 transition
-                 focus:outline-none focus:ring-2 focus:ring-black/50"
+                p-2 sm:px-4 sm:py-2 hover:bg-gray-800 transition
+                focus:outline-none focus:ring-2 focus:ring-black/50"
                         aria-label="Nouvelle bouteille"
-                        title="Nouvelle bouteille">
+                        loadingText="Ouverture…">
                         <Plus className="h-5 w-5" aria-hidden="true" />
 
                         <span className="ml-2 hidden sm:inline">Nouvelle bouteille</span>
-                    </Link>
+                    </LoadingLink>
                 </div>
             </div>
 
