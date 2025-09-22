@@ -9,6 +9,7 @@ export type ActionState = { error: string | null }
 export async function markConsumed(formData: FormData) {
     const id = formData.get('id') as string
     const ratingStr = formData.get('rating') as string | null
+    const notes = formData.get('notes') as string | null
     const rating =
         ratingStr && ratingStr !== '' ? Math.max(0, Math.min(5, Number(ratingStr))) : null
 
@@ -18,16 +19,15 @@ export async function markConsumed(formData: FormData) {
         .update({
             consumed: true,
             rating,
+            notes,
             updated_at: new Date().toISOString(),
         })
         .eq('id', id)
 
     if (error) {
-        // tu peux lancer une erreur ou logger si besoin
         console.error(error)
     }
 
-    // recharge la page liste
     revalidatePath('/bottles')
 }
 
@@ -57,6 +57,7 @@ export async function createBottle(_prev: ActionState, formData: FormData): Prom
         comm: d.comm ?? null,
         consumed: d.consumed ?? false,
         rating: d.rating ?? null,
+        notes: d.notes ?? null,
     })
     if (error) return { error: error.message }
 
@@ -89,6 +90,7 @@ export async function updateBottle(id: string, _prev: ActionState, formData: For
         consumed: d.consumed ?? false,
         rating: d.rating ?? null,
         updated_at: new Date().toISOString(),
+        notes: d.notes ?? null
     }).eq('id', id)
 
     if (error) return { error: error.message }

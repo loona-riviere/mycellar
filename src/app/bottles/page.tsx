@@ -9,32 +9,6 @@ import StockSummary from '../components/StockSummary'
 import BottleList from '../components/BottleList'
 
 
-function getColorExpirationDate(b: Bottle): string {
-    if (!b.max_year) return ''
-    const currentYear = new Date().getFullYear()
-    const yearsLeft = b.max_year - currentYear
-    if (yearsLeft > 3) return 'bg-green-100 text-green-800'
-    if (yearsLeft >= 1) return 'bg-orange-100 text-orange-800'
-    if (yearsLeft >= 0) return 'bg-red-100 text-red-700'
-    return 'bg-gray-200 text-gray-500 line-through'
-}
-
-function getColorChip(color?: Bottle['color']): { className: string; label: string } | null {
-    switch (color) {
-        case 'red':
-            return { className: 'bg-rose-100 text-rose-800', label: 'Rouge' }
-        case 'white':
-            return { className: 'bg-amber-100 text-amber-800', label: 'Blanc' }
-        case 'rose':
-            return { className: 'bg-pink-100 text-pink-800', label: 'Rosé' }
-        case 'sparkling':
-            return { className: 'bg-cyan-100 text-cyan-800', label: 'Pétillant' }
-        default:
-            return null
-    }
-}
-
-
 // --- logique de tri ---
 type SortKey =
     | 'year_desc' | 'year_asc'

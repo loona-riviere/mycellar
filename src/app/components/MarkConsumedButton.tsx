@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle } from 'lucide-react'
-import { markConsumed } from '@/app/bottles/actions';
+import { markConsumed } from '@/app/bottles/actions'
 
 export default function MarkConsumedButton({
     bottleId,
@@ -13,6 +13,7 @@ export default function MarkConsumedButton({
 }) {
     const [open, setOpen] = useState(false)
     const [rating, setRating] = useState<number | ''>('')
+    const [notes, setNotes] = useState('')
 
     return (
         <>
@@ -54,6 +55,18 @@ export default function MarkConsumedButton({
                                     }
                                     className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
                                     placeholder="Laisser vide si pas de note"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium">Mon avis</label>
+                                <textarea
+                                    name="notes"
+                                    rows={2}
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                    className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                                    placeholder="Notes personnelles…"
                                 />
                             </div>
 

@@ -2,7 +2,6 @@ import Link from 'next/link'
 import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
 import { Pencil, Star } from 'lucide-react'
-import { labelColors } from '@/app/lib/definitions';
 import BottleList from '@/app/components/BottleList';
 
 export default async function FinishedBottlesPage() {
@@ -18,22 +17,6 @@ export default async function FinishedBottlesPage() {
 
     if (error) {
         return <main className="p-6">Erreur : {error.message}</main>
-    }
-
-    const renderStars = (rating: number | null) => {
-        if (rating === null || rating === 0) return null
-        return (
-            <div className="flex items-center gap-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                        key={star}
-                        className={`h-4 w-4 ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                            }`}
-                    />
-                ))}
-                <span className="text-xs text-gray-500 ml-1">({rating}/5)</span>
-            </div>
-        )
     }
 
     return (

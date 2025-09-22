@@ -12,6 +12,7 @@ export type Bottle = {
     price?: number;
     consumed: false;
     rating: number | null;
+    notes: string | null;
 }
 export type ActionState = {
     error: string | null;

@@ -19,6 +19,7 @@ const initialState: ActionState = { error: null }
 export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props) {
     const [state, formAction] = useActionState(onSubmit, initialState)
     const [deleting, setDeleting] = useState(false)
+    const [consumed, setConsumed] = useState<boolean>(!!initial.consumed)
 
     return (
         <main className="max-w-2xl mx-auto p-6">
@@ -90,23 +91,34 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props)
                     </div>
                 </div>
 
-                {/* Consommée / Note */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2">
-                        <input type="checkbox" id="consumed" name="consumed" defaultChecked={initial.consumed ?? false} className="h-4 w-4" />
-                        <label htmlFor="consumed" className="text-sm font-medium">Bouteille consommée</label>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium">Note (0–5)</label>
-                        <input type="number" name="rating" min={0} max={5} step={1} defaultValue={initial.rating ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
-                    </div>
-                </div>
-
                 {/* Commentaires */}
                 <div>
                     <label className="block text-sm font-medium">Commentaires</label>
-                    <textarea name="comm" rows={3} defaultValue={initial.comm ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Notes personnelles…" />
+                    <textarea name="comm" rows={2} defaultValue={initial.comm ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Infos supplémentaires..." />
                 </div>
+
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                        <input type="checkbox" id="consumed" name="consumed" defaultChecked={initial.consumed ?? false} className="h-4 w-4"
+                            onChange={(e) => setConsumed(e.target.checked)} />
+                        <label htmlFor="consumed" className="text-sm font-medium">Bouteille consommée</label>
+                    </div>
+                </div>
+
+                {consumed && (
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium">Note (0–5)</label>
+                            <input type="number" name="rating" min={0} max={5} step={1} defaultValue={initial.rating ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium">Mon avis</label>
+                            <textarea name="notes" rows={1} defaultValue={initial.notes ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Infos supplémentaires..." />
+                        </div>
+                    </div>
+                )}
+
 
                 {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
