@@ -27,7 +27,10 @@ export const metadata: Metadata = {
     description: "By Loona & Julien",
     manifest: "/manifest.json",
     icons: {
-        icon: "/wine.svg",
+        icon: [
+            { url: "/wine.svg", type: "image/svg+xml" },
+            { url: "/favicon.ico" }
+        ],
         apple: "/apple-touch-icon.png",
     },
     appleWebApp: {
@@ -36,6 +39,7 @@ export const metadata: Metadata = {
         title: "My wine cellar",
     },
 };
+
 
 
 export default async function RootLayout({

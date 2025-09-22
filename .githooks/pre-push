@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+echo "→ Build…"
+npm run build
+
+# inclure les artefacts générés
+git add -A
