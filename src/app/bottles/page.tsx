@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
-import { MessageCircle, Pencil } from 'lucide-react'
-import MarkConsumedButton from './MarkConsumedButton'
+import { MessageCircle, Pencil, Plus } from 'lucide-react'
+import MarkConsumedButton from '@/app/components/MarkConsumedButton'
 import { Bottle, labelColors } from '@/app/lib/definitions'
-import SortSelect from '@/app/bottles/SortSelect';
+import SortSelect from '@/app/components/SortSelect';
+import StockSummary from '../components/StockSummary'
 
 function pluralize(count: number, singular: string, plural?: string) {
     if (!count) return `0 ${plural ?? singular + 's'}`
@@ -44,8 +45,8 @@ function buildOrder(sort: SortKey): { column: string; ascending: boolean; nullsF
 }
 
 export default async function BottlesPage({
-                                              searchParams,
-                                          }: Readonly<{
+    searchParams,
+}: Readonly<{
     searchParams?: { sort?: string }
 }>) {
     const sort: SortKey = (searchParams?.sort as SortKey) ?? 'year_desc'
@@ -84,15 +85,18 @@ export default async function BottlesPage({
             <div className="mb-6 flex items-center justify-between">
                 <h1 className="text-2xl font-semibold">🍷 Ma cave</h1>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-3">
-                        <SortSelect/>
-                    </div>
-
+                    <SortSelect />
                     <Link
                         href="/bottles/new"
-                        className="rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 transition"
-                    >
-                    + Nouvelle bouteille
+                        prefetch
+                        className="inline-flex items-center rounded-md bg-black text-white
+                 p-2 sm:px-4 sm:py-2 hover:bg-gray-800 transition
+                 focus:outline-none focus:ring-2 focus:ring-black/50"
+                        aria-label="Nouvelle bouteille"
+                        title="Nouvelle bouteille">
+                        <Plus className="h-5 w-5" aria-hidden="true" />
+
+                        <span className="ml-2 hidden sm:inline">Nouvelle bouteille</span>
                     </Link>
                 </div>
             </div>
@@ -102,14 +106,8 @@ export default async function BottlesPage({
             )}
 
             {bottles && bottles.length > 0 && (
-                <div className="mt-2 text-sm text-gray-600">
-                    En stock :
-                    {counts.red > 0  && <span className="ml-2">🍷 {pluralize(counts.red, 'rouge', 'rouges')}</span>}
-                    {counts.white > 0  && <span className="ml-2">🥂 {pluralize(counts.white, 'blanc', 'blancs')}</span>}
-                    {counts.rose > 0  && <span className="ml-2">🌸 {pluralize(counts.rose, 'rosé', 'rosés')}</span>}
-                    {counts.sparkling > 0 && (
-                        <span className="ml-2">🍾 {pluralize(counts.sparkling, 'pétillant', 'pétillants')}</span>
-                    )}
+                <div className="mt-2">
+                    <StockSummary counts={counts} total={bottles.length} />
                 </div>
             )}
 
@@ -133,9 +131,9 @@ export default async function BottlesPage({
                                 </p>
                             </div>
                             <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-700 font-medium whitespace-nowrap">
-                  {b.price != null ? `${Number(b.price).toFixed(2)} €` : '—'}
-                </span>
+                                <span className="text-sm text-gray-700 font-medium whitespace-nowrap">
+                                    {b.price != null ? `${Number(b.price).toFixed(2)} €` : '—'}
+                                </span>
                                 <MarkConsumedButton bottleId={b.id} />
                                 <Link
                                     href={`/bottles/${b.id}/edit`}
@@ -160,12 +158,12 @@ export default async function BottlesPage({
 
                         {b.max_year && (
                             <p className="mt-1 text-xs text-gray-500">
-                <span
-                    className={`inline-flex items-center rounded px-2 py-0.5 ${getColorExpirationDate(b)}`}
-                    title="Année conseillée pour boire"
-                >
-                  À boire avant {b.max_year}
-                </span>
+                                <span
+                                    className={`inline-flex items-center rounded px-2 py-0.5 ${getColorExpirationDate(b)}`}
+                                    title="Année conseillée pour boire"
+                                >
+                                    À boire avant {b.max_year}
+                                </span>
                             </p>
                         )}
                     </li>

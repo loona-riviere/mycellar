@@ -1,5 +1,5 @@
 import { createBottle } from '@/app/bottles/actions';
-import BottleForm from '@/app/bottles/form/BottleForm';
+import BottleForm from '@/app/components/BottleForm';
 
 export default async function BottleFormPage() {
         return (

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { markConsumed } from './actions'
 import { CheckCircle } from 'lucide-react'
+import { markConsumed } from '@/app/bottles/actions';
 
 export default function MarkConsumedButton({
     bottleId,

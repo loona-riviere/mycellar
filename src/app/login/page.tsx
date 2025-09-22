@@ -1,6 +1,7 @@
 import { login, signInWithMagicLink } from './actions'
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import LoadingButton from '@/app/components/ui/LoadingButton';
 
 export default async function LoginPage() {
 
@@ -41,20 +42,23 @@ export default async function LoginPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <button
-                        formAction={login}
+                    <LoadingButton
                         className="w-full rounded-md bg-black px-4 py-2 text-white"
+                        pendingText="Connexion…"
+                        type="submit"
+                        formAction={login as any}
                     >
                         Se connecter
-                    </button>
+                    </LoadingButton>
 
-                    <button
-                        formAction={signInWithMagicLink}
+                    <LoadingButton
                         className="w-full rounded-md border px-4 py-2"
-                        title="Recevoir un lien de connexion par email"
+                        pendingText="Envoi…"
+                        type="submit"
+                        formAction={signInWithMagicLink as any}
                     >
                         Envoyer un lien magique ✉️
-                    </button>
+                    </LoadingButton>
                 </div>
             </form>
         </main>

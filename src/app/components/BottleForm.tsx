@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
-import type { BottleFormInput } from '../_schema'
+import type { BottleFormInput } from '../bottles/_schema'
 import { ActionState } from '@/app/bottles/actions';
+import LoadingButton from './ui/LoadingButton'
+import LoadingLink from './ui/LoadingLink'
 
 type Props = {
     mode: 'create' | 'edit'
@@ -109,10 +111,10 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props)
                 {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
                 <div className="flex items-center gap-3">
-                    <button className="rounded-md bg-black px-4 py-2 text-white">
+                    <LoadingButton className="rounded-md bg-black px-4 py-2 text-white" pendingText={mode === 'create' ? 'Enregistrement…' : 'Mise à jour…'}>
                         {mode === 'create' ? 'Enregistrer' : 'Mettre à jour'}
-                    </button>
-                    <Link href="/bottles" className="rounded-md border px-4 py-2">Annuler</Link>
+                    </LoadingButton>
+                    <LoadingLink href="/bottles" className="rounded-md border px-4 py-2" loadingText="Retour…">Annuler</LoadingLink>
                 </div>
             </form>
 
