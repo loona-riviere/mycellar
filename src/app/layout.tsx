@@ -55,7 +55,7 @@ export default async function RootLayout({
             >
                 {session && (
                     <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
-                        <h1 className="text-lg font-semibold"><a href="/bottles">🍷 My Wine Cellar</a></h1>
+                        <h1 className="text-lg font-semibold"><a href="/bottles">🍷 Ma Cave</a></h1>
                         <form action={logout}>
                             <button
                                 type="submit"
