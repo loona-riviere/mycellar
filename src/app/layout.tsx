@@ -4,6 +4,7 @@ import "./globals.css";
 import { logout } from "@/app/logout/actions";
 import { LogOut } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,7 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-    title: "My wine cellar",
+    title: "Ma cave",
     description: "By Loona & Julien",
     manifest: "/manifest.json",
     icons: {
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     appleWebApp: {
         capable: true,
         statusBarStyle: "default",
-        title: "My wine cellar",
+        title: "Ma cave",
     },
 };
 
@@ -59,7 +60,7 @@ export default async function RootLayout({
             >
                 {session && (
                     <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
-                        <h1 className="text-lg font-semibold"><a href="/bottles">🍷 Ma Cave</a></h1>
+                        <h1 className="text-lg font-semibold"><Link href="/bottles">🍷 Ma Cave</Link></h1>
                         <form action={logout}>
                             <button
                                 type="submit"
