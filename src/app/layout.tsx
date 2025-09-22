@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-    title: "Ma cave",
+    title: "My wine cellar",
     description: "By Loona & Julien",
     manifest: "/manifest.json",
     icons: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     appleWebApp: {
         capable: true,
         statusBarStyle: "default",
-        title: "Ma cave",
+        title: "My wine cellar",
     },
 };
 
@@ -66,6 +66,8 @@ export default async function RootLayout({
                                 <span>Logout</span>
                             </button>
                         </form>
+                        <meta name="apple-mobile-web-app-capable" content="yes" />
+
                     </header>
                 )}
 
