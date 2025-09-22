@@ -2,11 +2,28 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { MessageCircle, Pencil } from 'lucide-react'
 import MarkConsumedButton from './MarkConsumedButton'
-import { labelColors } from '@/app/lib/definitions';
+import { Bottle, labelColors } from '@/app/lib/definitions';
 
 function pluralize(count: number, singular: string, plural?: string) {
     if (count <= 1) return `${count} ${singular}`
     return `${count} ${plural ?? singular + 's'}`
+}
+
+function getColorExpirationDate(b: Bottle): string {
+    if (!b.max_year) return ''
+
+    const currentYear = new Date().getFullYear()
+    const yearsLeft = b.max_year - currentYear
+
+    if (yearsLeft > 3) {
+        return 'bg-green-100 text-green-800'
+    } else if (yearsLeft >= 1) {
+        return 'bg-orange-100 text-orange-800'
+    } else if (yearsLeft >= 0) {
+        return 'bg-red-100 text-red-700'
+    } else {
+        return 'bg-gray-200 text-gray-500 line-through'
+    }
 }
 
 
@@ -17,7 +34,7 @@ export default async function BottlesPage() {
         .from('bottles')
         .select('id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating')
         .eq('consumed', false)
-        .order('created_at', { ascending: false })
+        .order('year', { ascending: false })
 
     if (error) {
         return <main className="p-6">Erreur : {error.message}</main>
@@ -123,9 +140,7 @@ export default async function BottlesPage() {
                             {b.max_year && (
                                 <span
                                     className={`inline-flex items-center rounded px-2 py-0.5 ${
-                                        b.max_year < new Date().getFullYear()
-                                            ? 'bg-red-100 text-red-700'
-                                            : 'bg-yellow-100 text-yellow-800'
+                                        (getColorExpirationDate(b))
                                     }`}
                                     title="Année conseillée pour boire"
                                 >

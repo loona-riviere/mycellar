@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import type { BottleFormInput } from '../_schema'
-import type { ActionState } from './actions'
+import { ActionState } from '@/app/bottles/actions';
 
 type Props = {
     mode: 'create' | 'edit'
