@@ -46,7 +46,7 @@ export default async function LoginPage() {
                         className="w-full rounded-md bg-black px-4 py-2 text-white"
                         pendingText="Connexion…"
                         type="submit"
-                        formAction={login as any}
+                        formAction={login}
                     >
                         Se connecter
                     </LoadingButton>
@@ -55,7 +55,7 @@ export default async function LoginPage() {
                         className="w-full rounded-md border px-4 py-2"
                         pendingText="Envoi…"
                         type="submit"
-                        formAction={signInWithMagicLink as any}
+                        formAction={signInWithMagicLink}
                     >
                         Envoyer un lien magique ✉️
                     </LoadingButton>

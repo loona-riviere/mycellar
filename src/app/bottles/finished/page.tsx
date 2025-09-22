@@ -1,7 +1,5 @@
-import Link from 'next/link'
 import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
-import { Pencil, Star } from 'lucide-react'
 import BottleList from '@/app/components/BottleList';
 
 export default async function FinishedBottlesPage() {
@@ -10,7 +8,7 @@ export default async function FinishedBottlesPage() {
     const { data: bottles, error } = await supabase
         .from('bottles')
         .select(
-            'id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, updated_at'
+            'id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, notes, updated_at'
         )
         .eq('consumed', true)
         .order('updated_at', { ascending: false })

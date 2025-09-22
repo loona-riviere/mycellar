@@ -14,9 +14,6 @@ const COLORS: { key: 'red' | 'white' | 'rose' | 'sparkling'; label: string; emoj
 
 export default function StockSummary({ counts, total }: Props) {
     const safe = (k: 'red' | 'white' | 'rose' | 'sparkling') => counts[k] ?? 0
-    const segments = COLORS
-        .map(c => ({ ...c, value: safe(c.key) }))
-        .filter(s => s.value > 0)
 
     return (
         <section className="rounded-xl border bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 p-4 shadow-sm">

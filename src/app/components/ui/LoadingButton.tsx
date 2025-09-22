@@ -15,7 +15,7 @@ type Props = {
 export default function LoadingButton({ children, className, type = 'submit', pendingText = 'En cours…', formAction }: Props) {
     const { pending } = useFormStatus()
     return (
-        <button type={type} className={className} disabled={pending} aria-busy={pending} aria-live="polite" formAction={formAction as any}>
+        <button type={type} className={className} disabled={pending} aria-busy={pending} aria-live="polite" formAction={formAction}>
             {pending ? pendingText : children}
         </button>
     )

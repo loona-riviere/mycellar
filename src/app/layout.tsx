@@ -39,8 +39,8 @@ export const metadata: Metadata = {
 
 
 export default async function RootLayout({
-                                             children,
-                                         }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     const supabase = await createClient();
@@ -50,31 +50,33 @@ export default async function RootLayout({
 
     return (
         <html lang="fr">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
-        >
-        {session && (
-            <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
-                <h1 className="text-lg font-semibold"><a href="/bottles">🍷 My Wine Cellar</a></h1>
-                <form action={logout}>
-                    <button
-                        type="submit"
-                        className="flex items-center cursor-pointer gap-1 text-sm text-gray-600 hover:text-black"
-                        title="Se déconnecter"
-                    >
-                        <LogOut className="h-4 w-4" />
-                        <span>Logout</span>
-                    </button>
-                </form>
-            </header>
-        )}
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
+            >
+                {session && (
+                    <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
+                        <h1 className="text-lg font-semibold"><a href="/bottles">🍷 My Wine Cellar</a></h1>
+                        <form action={logout}>
+                            <button
+                                type="submit"
+                                className="flex items-center cursor-pointer gap-1 text-sm text-gray-600 hover:text-black"
+                                title="Se déconnecter"
+                            >
+                                <LogOut className="h-4 w-4" />
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                        <meta name="apple-mobile-web-app-capable" content="yes" />
 
-        <main className="flex-1">{children}</main>
+                    </header>
+                )}
 
-        <footer className="border-t px-6 py-4 text-center text-sm text-gray-500 bg-gray-50">
-            Fait avec ❤️ par Loona
-        </footer>
-        </body>
+                <main className="flex-1">{children}</main>
+
+                <footer className="border-t px-6 py-4 text-center text-sm text-gray-500 bg-gray-50">
+                    Fait avec ❤️ par Loona
+                </footer>
+            </body>
         </html>
     );
 }

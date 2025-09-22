@@ -13,6 +13,8 @@ export type Bottle = {
     consumed: false;
     rating: number | null;
     notes: string | null;
+    updated_at: Date;
+    created_at: Date;
 }
 export type ActionState = {
     error: string | null;

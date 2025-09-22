@@ -60,7 +60,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                 <p className="text-xs text-gray-400">
                     {variant === 'active'
                         ? <>Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}</>
-                        : <>Bue le {new Date((b as any).updated_at ?? b.created_at).toLocaleDateString('fr-FR')}</>}
+                        : <>Bue le {new Date((b as Bottle).updated_at ?? b.created_at).toLocaleDateString('fr-FR')}</>}
                 </p>
 
                 <div className="flex items-center gap-2">

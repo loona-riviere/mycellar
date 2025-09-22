@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
-import { MessageCircle, Pencil, Plus } from 'lucide-react'
-import MarkConsumedButton from '@/app/components/MarkConsumedButton'
-import { Bottle, labelColors } from '@/app/lib/definitions'
+import { Plus } from 'lucide-react'
 import SortSelect from '@/app/components/SortSelect';
 import StockSummary from '../components/StockSummary'
 import BottleList from '../components/BottleList'
@@ -43,7 +41,7 @@ export default async function BottlesPage({
     let query = supabase
         .from('bottles')
         .select(
-            'id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating'
+            'id, name, estate, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, notes, updated_at'
         )
         .eq('consumed', false)
 
