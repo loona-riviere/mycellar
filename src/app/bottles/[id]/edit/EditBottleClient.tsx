@@ -66,6 +66,20 @@ export default function EditBottleClient({ id, bottle }: { id: string; bottle: B
                     </div>
                 </div>
 
+                <div>
+                    <label className="block text-sm font-medium">À boire avant (année)</label>
+                    <input
+                        type="number"
+                        name="max_year"
+                        step={1}
+                        min={1900}
+                        max={2100}
+                        defaultValue={bottle.max_year ?? ''}
+                        className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                        placeholder="2028"
+                    />
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium">Couleur *</label>

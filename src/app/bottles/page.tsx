@@ -15,7 +15,7 @@ export default async function BottlesPage() {
 
     const { data: bottles, error } = await supabase
         .from('bottles')
-        .select('id, name, year, price, color, producer, region, grapes, created_at, comm, consumed, rating')
+        .select('id, name, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating')
         .eq('consumed', false)
         .order('created_at', { ascending: false })
 
@@ -89,11 +89,11 @@ export default async function BottlesPage() {
                                     {b.producer && <span>{b.producer} · </span>}
                                     {b.region && <span>{b.region} · </span>}
                                     {b.color && <span>{labelColors[b.color]} · </span>}
-                                    {b.grapes && <span>{b.grapes} · </span>}
+                                    {b.grapes && <span>{b.grapes}</span>}
                                 </p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-700 font-medium">
+                                <span className="text-sm text-gray-700 font-medium whitespace-nowrap">
                                     {b.price != null ? `${Number(b.price).toFixed(2)} €` : '—'}
                                 </span>
                                 <MarkConsumedButton bottleId={b.id}/>
@@ -109,13 +109,28 @@ export default async function BottlesPage() {
                         </div>
                         {b.comm &&
                             <div className="flex items-center gap-2">
-                                <MessageCircle className="h-3 w-3"/>
+                            <MessageCircle className="h-3 w-3"/>
                                 <p className="text-sm text-gray-600 italic">Commentaires : {b.comm}</p>
                             </div>
                         }
 
                         <p className="mt-1 text-xs text-gray-400">
                             Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}
+                        </p>
+
+                        <p className="mt-1 text-xs text-gray-500">
+                            {b.max_year && (
+                                <span
+                                    className={`inline-flex items-center rounded px-2 py-0.5 ${
+                                        b.max_year < new Date().getFullYear()
+                                            ? 'bg-red-100 text-red-700'
+                                            : 'bg-yellow-100 text-yellow-800'
+                                    }`}
+                                    title="Année conseillée pour boire"
+                                >
+                                    À boire avant {b.max_year}
+                                </span>
+                            )}
                         </p>
                     </li>
                 ))}

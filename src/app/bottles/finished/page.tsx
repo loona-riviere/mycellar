@@ -9,7 +9,7 @@ export default async function FinishedBottlesPage() {
     const { data: bottles, error } = await supabase
         .from('bottles')
         .select(
-            'id, name, year, price, color, producer, region, grapes, created_at, comm, consumed, rating, updated_at'
+            'id, name, year, max_year, price, color, producer, region, grapes, created_at, comm, consumed, rating, updated_at'
         )
         .eq('consumed', true)
         .order('updated_at', { ascending: false })

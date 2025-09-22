@@ -44,7 +44,7 @@ export default async function RootLayout({
                 <form action={logout}>
                     <button
                         type="submit"
-                        className="flex items-center gap-1 text-sm text-gray-600 hover:text-black"
+                        className="flex items-center cursor-pointer gap-1 text-sm text-gray-600 hover:text-black"
                         title="Se déconnecter"
                     >
                         <LogOut className="h-4 w-4" />

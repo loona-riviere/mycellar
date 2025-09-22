@@ -7,7 +7,7 @@ export default async function EditBottlePage({ params }: { params: { id: string 
     const supabase = await createClient()
     const { data: bottle, error } = await supabase
         .from('bottles')
-        .select('id, name, year, price, color, producer, region, grapes, comm, consumed, rating')
+        .select('id, name, year, max_year, price, color, producer, region, grapes, comm, consumed, rating')
         .eq('id', params.id)
         .single()
 

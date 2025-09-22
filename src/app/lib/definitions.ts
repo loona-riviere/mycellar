@@ -6,6 +6,7 @@ export type Bottle = {
     grapes?: string;
     comm?: string;
     year: number;
+    max_year: number;
     price?: number;
     consumed: false;
     rating?: 0 | 1 | 2 | 3 | 4 | 5;

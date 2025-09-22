@@ -21,6 +21,9 @@ const Schema = z.object({
             if (!Number.isFinite(n) || !Number.isInteger(n)) throw new Error('Année invalide')
             return n
         }),
+    max_year: z.union([z.string(), z.number()]).optional()
+        .transform(v => v === '' || v == null ? null : Number(v))
+        .refine(v => v == null || Number.isInteger(v), 'Année max invalide'),
     price: z
         .union([z.string(), z.number()])
         .optional()
@@ -57,8 +60,9 @@ export async function updateBottle(id: string, _prevState: ActionState, formData
         color: parsed.color ?? null,
         grapes: parsed.grapes ?? null,
         comm: parsed.comm ?? null,
-        year: parsed.year,     // int | null
-        price: parsed.price,   // number(2) | null
+        year: parsed.year,
+        max_year: parsed.max_year,
+        price: parsed.price,
         updated_at: new Date().toISOString(),
         consumed: parsed.consumed,
         rating: parsed.rating,

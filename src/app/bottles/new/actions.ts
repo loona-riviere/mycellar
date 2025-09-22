@@ -13,6 +13,9 @@ const Schema = z.object({
     grapes: z.string().optional(),
     year: z.union([z.string(), z.number()]).optional()
         .transform(v => v === '' || v == null ? null : Number(v)),
+    max_year: z.union([z.string(), z.number()]).optional()
+        .transform(v => v === '' || v == null ? null : Number(v))
+        .refine(v => v == null || Number.isInteger(v), 'Année max invalide'),
     price: z.union([z.string(), z.number()]).optional()
         .transform(v => v === '' || v == null ? null : Math.round(Number(v) * 100) / 100),
     comm: z.string().optional(),
@@ -42,6 +45,7 @@ export async function createBottle(_: ActionState, formData: FormData) {
         color: data.color ?? null,
         grapes: data.grapes ?? null,
         year: data.year ?? null,
+        max_year: data.max_year ?? null,
         price: data.price ?? null,
         comm: data.comm ?? null,
         consumed: data.consumed,
