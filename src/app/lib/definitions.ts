@@ -8,6 +8,7 @@ export type Bottle = {
     grapes?: string;
     comm?: string;
     year: number;
+    min_year: number;
     max_year: number;
     price?: number;
     consumed: false;
@@ -15,6 +16,7 @@ export type Bottle = {
     notes: string | null;
     updated_at: Date;
     created_at: Date;
+    image_url: string;
 }
 export type ActionState = {
     error: string | null;
