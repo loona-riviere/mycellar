@@ -114,7 +114,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                     )}
 
                     {/* Bas de carte */}
-                    <div className="mt-3 flex items-center justify-between">
+                    <div className="mt-1 flex items-center justify-between">
                         <p className="text-xs text-gray-400">
                             {variant === 'active'
                                 ? <>Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}</>
