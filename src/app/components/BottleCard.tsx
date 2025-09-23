@@ -134,8 +134,8 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                             src={b.image_url}
                             alt={b.name}
                             className="max-w-full max-h-[90vh] object-contain rounded-md bg-gray-50"
-                            width={200}
-                            height={200}
+                            width={400}
+                            height={400}
                         />
                     </div>
                 </div>
