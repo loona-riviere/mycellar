@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Pencil, MessageCircle, Star, ImageOff, Award, MapPin } from 'lucide-react'
 import MarkConsumedButton from '@/app/components/MarkConsumedButton'
 import type { Bottle } from '@/app/lib/definitions'

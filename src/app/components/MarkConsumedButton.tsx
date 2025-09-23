@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Star } from 'lucide-react'
 import { markConsumed } from '@/app/bottles/actions'
 
 export default function MarkConsumedButton({
@@ -14,6 +14,8 @@ export default function MarkConsumedButton({
     const [open, setOpen] = useState(false)
     const [rating, setRating] = useState<number | ''>('')
     const [notes, setNotes] = useState('')
+
+    const stars = [1, 2, 3, 4, 5]
 
     return (
         <>
@@ -40,22 +42,29 @@ export default function MarkConsumedButton({
                             className="mt-4 space-y-4"
                         >
                             <input type="hidden" name="id" value={bottleId} />
+                            <input type="hidden" name="rating" value={rating === '' ? '' : rating} />
 
+                            {/* Étoiles interactives */}
                             <div>
-                                <label className="block text-sm font-medium">Note (0–5)</label>
-                                <input
-                                    name="rating"
-                                    type="number"
-                                    min={0}
-                                    max={5}
-                                    step={1}
-                                    value={rating}
-                                    onChange={(e) =>
-                                        setRating(e.target.value === '' ? '' : Number(e.target.value))
-                                    }
-                                    className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-                                    placeholder="Laisser vide si pas de note"
-                                />
+                                <label className="block text-sm font-medium mb-1">Note (0–5)</label>
+                                <div className="flex items-center gap-1">
+                                    {stars.map((star) => (
+                                        <button
+                                            key={star}
+                                            type="button"
+                                            onClick={() => setRating(rating === star ? 0 : star)}
+                                            className="transition-transform hover:scale-125 focus:outline-none"
+                                        >
+                                            <Star
+                                                className={`w-6 h-6 ${star <= (rating || 0) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                                    }`}
+                                            />
+                                        </button>
+                                    ))}
+                                    <span className="ml-2 text-sm text-gray-500">
+                                        {rating ? `${rating} / 5` : 'Pas de note'}
+                                    </span>
+                                </div>
                             </div>
 
                             <div>

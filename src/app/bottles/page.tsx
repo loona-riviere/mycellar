@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react'
 import SortSelect from '@/app/components/SortSelect'
 import StockSummary from '../components/StockSummary'
 import BottleList from '../components/BottleList'
+import NotificationsPanel from '../components/NotificationsPanel'
 
 type SortKey =
     | 'year_desc' | 'year_asc'
@@ -95,6 +96,7 @@ export default async function BottlesPage({
             ) : (
                 <>
                     <div className="mt-2">
+                        <NotificationsPanel bottles={bottles} />
                         <StockSummary counts={counts} total={bottles.length} />
                     </div>
                     <BottleList bottles={bottles} variant="active" />

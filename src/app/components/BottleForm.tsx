@@ -3,11 +3,12 @@
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import type { BottleFormInput } from '../bottles/_schema'
-import { ActionState } from '@/app/bottles/actions'
+import type { ActionState } from '@/app/bottles/actions'
 import LoadingButton from './ui/LoadingButton'
 import LoadingLink from './ui/LoadingLink'
 import Image from 'next/image'
 import heic2any from 'heic2any'
+import { Star } from 'lucide-react'
 
 type Props = {
     mode: 'create' | 'edit'
@@ -24,6 +25,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props)
     const [consumed, setConsumed] = useState<boolean>(!!initial.consumed)
     const [preview, setPreview] = useState<string | null>(null)
     const [isProcessing, setIsProcessing] = useState(false)
+    const [rating, setRating] = useState<number | ''>(initial.rating ?? '')
 
     const handleFileChange = async (file: File) => {
         if (!file) return
@@ -49,7 +51,9 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props)
                 <h1 className="text-2xl font-semibold">
                     {mode === 'create' ? 'Ajouter une bouteille' : 'Modifier la bouteille'}
                 </h1>
-                <Link href="/bottles" className="text-sm underline text-gray-600">← Retour</Link>
+                <Link href="/bottles" className="text-sm underline text-gray-600" prefetch>
+                    ← Retour
+                </Link>
             </div>
 
             <form action={formAction} className="grid grid-cols-1 gap-4 bg-white p-5 rounded-lg border shadow-sm">
@@ -177,10 +181,21 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Props)
 
                 {consumed && (
                     <div className="grid grid-cols-2 gap-4">
+                        {/* Note avec étoiles */}
                         <div>
-                            <label className="block text-sm font-medium">Note (0–5)</label>
-                            <input type="number" name="rating" min={0} max={5} step={1} defaultValue={initial.rating ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" />
+                            <label className="block text-sm font-medium">Note</label>
+                            <div className="flex items-center gap-1 mt-1">
+                                {[1, 2, 3, 4, 5].map((n) => (
+                                    <Star
+                                        key={n}
+                                        className={`h-5 w-5 cursor-pointer ${rating && rating >= n ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                                        onClick={() => setRating(n)}
+                                    />
+                                ))}
+                            </div>
+                            <input type="hidden" name="rating" value={rating} />
                         </div>
+
                         <div>
                             <label className="block text-sm font-medium">Mon avis</label>
                             <textarea name="notes" rows={1} defaultValue={initial.notes ?? ''} className="mt-1 w-full rounded-md border px-3 py-2 text-sm" placeholder="Infos supplémentaires…" />

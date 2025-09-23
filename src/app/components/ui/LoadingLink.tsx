@@ -16,13 +16,13 @@ export default function LoadingLink({ className, children, loadingText = 'Ouvert
     const [isPending, startTransition] = useTransition()
 
     // We emulate Link behavior but trigger navigation via router to control pending state
-    const { href, replace, scroll, prefetch, ...rest } = props
+    const { href, replace, scroll, ...rest } = props
 
     return (
         <Link
             {...(rest as LinkProps)}
             href={href}
-            prefetch={prefetch}
+            prefetch
             className={className + " cursor-pointer"}
             onClick={(e) => {
                 // Prevent the default link navigation to manage with router and set pending
