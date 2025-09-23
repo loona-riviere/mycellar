@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Pencil, MessageCircle, Star } from 'lucide-react'
+import { Pencil, MessageCircle, Star, ImageOff } from 'lucide-react'
 import MarkConsumedButton from '@/app/components/MarkConsumedButton'
 import type { Bottle } from '@/app/lib/definitions'
 import { formatPrice, getColorChip, getColorExpirationBadge, getColorReadyBadge } from '@/app/lib/bottle-ui'
@@ -23,17 +23,21 @@ export default function BottleCard({ bottle: b, variant }: Props) {
         <li className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
             <div className="flex flex-col sm:flex-row gap-4">
                 {/* Image si présente */}
-                {b.image_url && (
-                    <div className="sm:w-32 sm:h-32 w-full h-40 flex-shrink-0 mb-3 sm:mb-0">
+                {b.image_url ? (
+                    <div className="sm:w-32 sm:h-32 w-full h-40 m-auto flex-shrink-0 bg-gray-50 rounded-md">
                         <Image
                             priority
                             src={b.image_url}
                             alt={b.name}
-                            className="w-full h-full object-contain rounded-md bg-gray-50 cursor-pointer"
+                            className="w-full h-full object-contain rounded-md cursor-pointer"
                             width={200}
                             height={200}
                             onClick={() => setIsModalOpen(true)}
                         />
+                    </div>
+                ) : (
+                    <div className="hidden sm:inline sm:w-32 sm:h-32 w-full h-40 flex-shrink-0 m-auto content-center justify-items-center bg-gray-50 rounded-md">
+                        <ImageOff color="gray" className="sm:w-18 sm:h-18 w-full "></ImageOff>
                     </div>
                 )}
 

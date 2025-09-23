@@ -23,7 +23,7 @@ export default function LoadingLink({ className, children, loadingText = 'Ouvert
             {...(rest as LinkProps)}
             href={href}
             prefetch={prefetch}
-            className={className}
+            className={className + " cursor-pointer"}
             onClick={(e) => {
                 // Prevent the default link navigation to manage with router and set pending
                 e.preventDefault()
