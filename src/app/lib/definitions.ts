@@ -1,15 +1,17 @@
 export type Bottle = {
     id: string;
-    name: string;
     estate: string;
+    cuvee?: string;
+    appellation?: string,
+    classification?: string,
     producer?: string;
     region?: string;
     color: 'red' | 'white' | 'rose' | 'sparkling';
     grapes?: string;
     comm?: string;
     year: number;
-    min_year: number;
-    max_year: number;
+    min_year?: number;
+    max_year?: number;
     price?: number;
     consumed: false;
     rating: number | null;

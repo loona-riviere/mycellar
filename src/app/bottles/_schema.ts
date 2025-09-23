@@ -1,12 +1,14 @@
 import { z } from 'zod'
 
 export const BottleSchema = z.object({
-    name: z.string().min(1, 'Nom requis'),
-    estate: z.string().optional(),
-    producer: z.string().optional(),
-    region: z.string().optional(),
-    color: z.string().optional(),
-    grapes: z.string().optional(),
+    estate: z.string().min(1, 'Domaine / Château requis'), // ex : Château Margaux, Maison Passot Rémy & Fils
+    cuvee: z.string().optional(),                          // ex : Polaris, Cuvée Miss Armande
+    appellation: z.string().optional(),                    // ex : Beaujolais-Villages, Monthelie
+    classification: z.string().optional(),                 // ex : Grand Cru, Premier Cru, Village, Brut (Champagne)
+    region: z.string().optional(),                         // ex : Bourgogne, Bordeaux, Champagne
+    producer: z.string().optional(),                       // utile si différent de l’estate
+    color: z.string().optional(),                          // Rouge, Blanc, Rosé, Pétillant…
+    grapes: z.string().optional(),                         // Cépages (Pinot Noir, Gamay…)
     comm: z.string().optional(),
 
     year: z.union([z.string(), z.number()]).optional()

@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { BottleSchema, type BottleFormInput } from './_schema'
 
 export type ActionState = { error: string | null }
+
 export async function markConsumed(formData: FormData) {
     const id = formData.get('id') as string
     const ratingStr = formData.get('rating') as string | null
@@ -24,9 +25,7 @@ export async function markConsumed(formData: FormData) {
         })
         .eq('id', id)
 
-    if (error) {
-        console.error(error)
-    }
+    if (error) console.error(error)
 
     revalidatePath('/bottles')
 }
@@ -38,17 +37,15 @@ export async function createBottle(_prev: ActionState, formData: FormData): Prom
 
     const raw = Object.fromEntries(formData.entries())
     const parsed = BottleSchema.safeParse(raw)
-    if (!parsed.success) {
-        return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide' }
-    }
+    if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide' }
+
     const d: BottleFormInput = parsed.data
 
-    // On insère d'abord la bouteille sans image
     const { data, error } = await supabase
         .from('bottles')
         .insert({
             user_id: user.id,
-            name: d.name,
+            name: d.cuvee,
             estate: d.estate ?? null,
             producer: d.producer ?? null,
             region: d.region ?? null,
@@ -63,34 +60,31 @@ export async function createBottle(_prev: ActionState, formData: FormData): Prom
             rating: d.rating ?? null,
             notes: d.notes ?? null,
         })
-        .select("id")
+        .select('id')
         .single()
 
-    if (error || !data) return { error: error?.message ?? "Erreur à l'insertion" }
+    if (error || !data) return { error: error?.message ?? 'Erreur à l’insertion' }
     const bottleId = data.id
 
-    // Gestion upload image si présente
-    const file = formData.get("image") as File | null
-    console.log(file)
+    // Upload image côté serveur (JPEG/PNG)
+    const file = formData.get('image') as File | null
     if (file && file.size > 0) {
-        const fileExt = file.name.split('.').pop()
+        const fileExt = file.name.split('.').pop() ?? 'jpg'
         const fileName = `${bottleId}.${fileExt}`
         const filePath = `bottles/${fileName}`
 
         const { error: uploadError } = await supabase.storage
-            .from("bottles_img")
+            .from('bottles_img')
             .upload(filePath, file, { upsert: true })
 
         if (!uploadError) {
-            const { data } = supabase.storage.from("bottles_img").getPublicUrl(filePath)
-            await supabase.from("bottles").update({ image_url: data.publicUrl }).eq("id", bottleId)
+            const { data } = supabase.storage.from('bottles_img').getPublicUrl(filePath)
+            await supabase.from('bottles').update({ image_url: data.publicUrl }).eq('id', bottleId)
         }
     }
 
-
     redirect('/bottles')
 }
-
 
 export async function updateBottle(id: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
     const supabase = await createClient()
@@ -99,34 +93,30 @@ export async function updateBottle(id: string, _prev: ActionState, formData: For
 
     const raw = Object.fromEntries(formData.entries())
     const parsed = BottleSchema.safeParse(raw)
-    if (!parsed.success) {
-        return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide' }
-    }
+    if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide' }
+
     const d: BottleFormInput = parsed.data
 
-    // Upload image si présente
     let imageUrl = null
-    const file = formData.get("image") as File | null
+    const file = formData.get('image') as File | null
     if (file && file.size > 0) {
         const fileName = `${id}-${file.name}`
         const filePath = `bottles/${fileName}`
 
         const { error: uploadError } = await supabase.storage
-            .from("bottles_img")
+            .from('bottles_img')
             .upload(filePath, file, { upsert: true })
-
         if (uploadError) return { error: uploadError.message }
 
-        const { data } = supabase.storage
-            .from("bottles_img")
-            .getPublicUrl(filePath)
-
+        const { data } = supabase.storage.from('bottles_img').getPublicUrl(filePath)
         imageUrl = data.publicUrl
     }
 
     const { error } = await supabase.from('bottles').update({
         user_id: user.id,
-        name: d.name,
+        cuvee: d.cuvee,
+        appellation: d.appellation,
+        classification: d.classification,
         estate: d.estate ?? null,
         producer: d.producer ?? null,
         region: d.region ?? null,
@@ -141,7 +131,7 @@ export async function updateBottle(id: string, _prev: ActionState, formData: For
         rating: d.rating ?? null,
         updated_at: new Date().toISOString(),
         notes: d.notes ?? null,
-        image_url: imageUrl ?? undefined, // ne remplace pas si pas d’upload
+        image_url: imageUrl ?? undefined,
     }).eq('id', id)
 
     if (error) return { error: error.message }
