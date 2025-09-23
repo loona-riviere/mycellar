@@ -8,7 +8,7 @@ export default function SortSelect() {
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
 
-    const current = searchParams.get('sort') ?? 'year_desc'
+    const current = searchParams.get('sort') ?? 'ready_asc'
 
     function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
         const params = new URLSearchParams(searchParams)
@@ -23,7 +23,7 @@ export default function SortSelect() {
             disabled={isPending}
             className="rounded-md border px-2 py-1 text-sm"
         >
-            <option value="maxyear_asc">À boire bientôt</option>
+            <option value="ready_asc">À boire bientôt</option>
             <option value="year_desc">Année ↓</option>
             <option value="year_asc">Année ↑</option>
             <option value="price_desc">Prix ↓</option>

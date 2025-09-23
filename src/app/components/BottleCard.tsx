@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Pencil, MessageCircle, Star, ImageOff, Award, MapPin } from 'lucide-react'
 import MarkConsumedButton from '@/app/components/MarkConsumedButton'
 import type { Bottle } from '@/app/lib/definitions'
-import { formatPrice, getColorChip, getColorExpirationBadge, getColorReadyBadge } from '@/app/lib/bottle-ui'
+import { formatPrice, getColorChip, getMaturityChip } from '@/app/lib/bottle-ui'
 import { useState } from 'react'
 import Image from 'next/image'
 
@@ -15,8 +15,6 @@ type Props = {
 
 export default function BottleCard({ bottle: b, variant }: Props) {
     const colorChip = getColorChip(b.color)
-    const expirationBadge = getColorExpirationBadge(b)
-    const readyBadge = getColorReadyBadge(b)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
@@ -67,23 +65,20 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                     )}
 
                     {/* Badges */}
+                    {/* Badges */}
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
                         {colorChip && (
                             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${colorChip.className}`}>
                                 {colorChip.label}
                             </span>
                         )}
-                        {variant === 'active' && readyBadge && (
-                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${readyBadge.className}`}>
-                                {readyBadge.text}
-                            </span>
-                        )}
-                        {variant === 'active' && expirationBadge && (
-                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${expirationBadge.className}`}>
-                                {expirationBadge.text}
+                        {variant === 'active' && b.min_year && b.max_year && (
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${getMaturityChip(b.min_year, b.max_year).className}`}>
+                                {getMaturityChip(b.min_year, b.max_year).text}
                             </span>
                         )}
                     </div>
+
 
                     {/* Appellation + Classification */}
                     {(b.appellation || b.classification) && (
