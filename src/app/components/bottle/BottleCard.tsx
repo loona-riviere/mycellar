@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Pencil, MessageCircle, Star, ImageOff, Award, MapPin } from 'lucide-react'
-import MarkConsumedButton from '@/app/components/MarkConsumedButton'
+import MarkConsumedButton from '@/app/components/ui/MarkConsumedButton'
 import type { Bottle } from '@/app/lib/definitions'
 import { formatPrice, getColorChip, getMaturityChip } from '@/app/lib/bottle-ui'
 import { useState } from 'react'
@@ -66,7 +66,6 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                     )}
 
                     {/* Badges */}
-                    {/* Badges */}
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
                         {colorChip && (
                             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${colorChip.className}`}>
@@ -79,7 +78,6 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                             </span>
                         )}
                     </div>
-
 
                     {/* Appellation + Classification */}
                     {(b.appellation || b.classification) && (
@@ -99,8 +97,6 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                         </p>
                     )}
 
-
-
                     {/* Commentaires */}
                     {b.comm && (
                         <div className="mt-2 flex items-center gap-2">
@@ -114,7 +110,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                         <p className="text-xs text-gray-400">
                             {variant === 'active'
                                 ? <>Ajouté le {new Date(b.created_at).toLocaleDateString('fr-FR')}</>
-                                : <>Bue le {new Date((b as Bottle).updated_at ?? b.created_at).toLocaleDateString('fr-FR')}</>}
+                                : <>Bue le {new Date(b.updated_at ?? b.created_at).toLocaleDateString('fr-FR')}</>}
                         </p>
 
                         <div className="flex items-center gap-2">

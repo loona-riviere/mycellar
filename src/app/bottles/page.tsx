@@ -2,9 +2,9 @@ import Link from 'next/link'
 import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
 import { Plus } from 'lucide-react'
-import SortSelect from '@/app/components/SortSelect'
+import SortSelect from '@/app/components/ui/SortSelect'
 import StockSummary from '../components/StockSummary'
-import BottleList from '../components/BottleList'
+import BottleList from '../components/bottle/BottleList'
 import NotificationsPanel from '../components/NotificationsPanel'
 
 type SortKey =

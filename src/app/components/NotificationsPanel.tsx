@@ -67,10 +67,6 @@ export default function NotificationsPanel({ bottles }: NotificationsProps) {
 
   if (notifications.length === 0) return null
 
-  const handleMouseEnter = (bottleId: string) => {
-    router.prefetch(`/bottles/${bottleId}`)
-  }
-
   const getPriorityColor = (priority: 'high' | 'medium') =>
     priority === 'high' ? 'bg-red-500' : 'bg-yellow-500'
 

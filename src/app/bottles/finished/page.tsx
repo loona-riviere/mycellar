@@ -1,6 +1,6 @@
 import LoadingLink from '@/app/components/ui/LoadingLink'
 import { createClient } from '@/utils/supabase/server'
-import BottleList from '@/app/components/BottleList';
+import BottleList from '@/app/components/bottle/BottleList';
 
 export default async function FinishedBottlesPage() {
     const supabase = await createClient()

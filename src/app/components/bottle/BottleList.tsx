@@ -1,4 +1,4 @@
-import BottleCard from '@/app/components/BottleCard'
+import BottleCard from '@/app/components/bottle/BottleCard'
 import type { Bottle } from '@/app/lib/definitions'
 
 export default function BottleList({ bottles, variant }: { bottles: Bottle[]; variant: 'active' | 'finished' }) {
