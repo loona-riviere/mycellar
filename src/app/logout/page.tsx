@@ -1,15 +1,21 @@
-import { logout } from './actions'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { logout } from '@/app/logout/actions';
 
 export default function LogoutPage() {
+    const supabase = createClientComponentClient()
+    const router = useRouter()
+
+    useEffect(() => {
+        logout()
+    }, [supabase, router])
+
     return (
-        <main className="flex min-h-screen items-center justify-center">
-            <form action={logout}>
-                <button
-                    className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                >
-                    Se déconnecter
-                </button>
-            </form>
-        </main>
+        <div className="flex min-h-screen items-center justify-center bg-gray-900 text-white">
+            <p className="text-lg font-semibold">Déconnexion en cours…</p>
+        </div>
     )
 }

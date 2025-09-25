@@ -125,7 +125,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
                             )}
 
                             <Link
-                                href={`/bottles/${b.id}/edit`}
+                                href={`/src/app/cave/bottles/${b.id}/edit`}
                                 className="text-gray-500 hover:text-black rounded p-1 focus:outline-none focus:ring-2 focus:ring-gray-300"
                                 title="Modifier"
                                 aria-label={`Modifier ${b.cuvee || b.estate}`}

@@ -5,12 +5,11 @@ import BottleList from "@/app/components/bottle/BottleList"
 import { Bottle, labelColors } from "@/app/lib/definitions"
 import { BottleFilters, SortKey } from '@/app/components/BottleFilters'
 import Link from "next/link"
-import { Plus } from "lucide-react"
 import StockSummary from '@/app/components/StockSummary';
-import LoadingLink from '@/app/components/ui/LoadingLink';
 
 interface Props {
     initialBottles: Bottle[]
+    caveName?: string
 }
 
 export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
@@ -52,25 +51,6 @@ export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
 
     return (
         <main className="container mx-auto px-4 py-8 space-y-6">
-            {/* Header Actions */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                <div>
-                    <h2 className="text-3xl font-playfair font-bold">🍷 Ma Cave</h2>
-                    <p className="text-muted-foreground">Découvrez et gérez votre collection</p>
-                </div>
-                <div className="flex gap-2 flex-wrap">
-                    <LoadingLink
-                        href="/bottles/new"
-                        prefetch
-                        className="inline-flex items-center rounded-md bg-red-800 text-white p-2 sm:px-4 sm:py-2 hover:bg-red-900 transition focus:outline-none"
-                        aria-label="Nouvelle bouteille"
-                        loadingText="Ouverture…">
-                        <Plus className="h-5 w-5" aria-hidden="true" />
-                        <span className="ml-2 hidden sm:inline">Nouvelle bouteille</span>
-                    </LoadingLink>
-                </div>
-            </div>
-
             {/* Notifications */}
             <NotificationsPanel bottles={initialBottles} />
 
@@ -102,7 +82,7 @@ export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
 {/* Lien vers les terminées */
 }
 <div className="text-center mt-6">
-    <Link href="/bottles/finished" className="text-sm underline text-gray-600">
+    <Link href="/cave/bottles/finished" className="text-sm underline text-gray-600">
                     Voir les terminées
                 </Link>
             </div>

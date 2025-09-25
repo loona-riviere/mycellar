@@ -11,7 +11,7 @@ export default async function LoginPage() {
     } = await supabase.auth.getSession();
 
     if (session) {
-        redirect("/bottles");
+        redirect("/cave/bottles");
     }
     return (
         <main className="flex min-h-screen items-center justify-center bg-gray-50">

@@ -22,7 +22,7 @@ export default async function FinishedBottlesPage() {
             <div className="mb-6 flex items-center justify-between">
                 <h1 className="text-2xl font-semibold">🍷 Bouteilles bues</h1>
                 <LoadingLink
-                    href="/bottles"
+                    href="/cave/bottles"
                     className="rounded-md border px-4 py-2 text-gray-700 hover:bg-gray-50 transition"
                     loadingText="Retour…"
                     aria-label="Retour à la cave"

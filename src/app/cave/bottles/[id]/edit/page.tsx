@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import BottleForm from '@/app/components/bottle/BottleForm'
-import { deleteBottle, updateBottle } from '@/app/bottles/actions';
+import { deleteBottle, updateBottle } from '@/app/cave/bottles/actions';
 
 export default async function EditBottlePage({
                                                  params,

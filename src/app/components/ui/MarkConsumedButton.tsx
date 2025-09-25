@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle, Star } from 'lucide-react'
-import { markConsumed } from '@/app/bottles/actions'
+import { markConsumed } from '@/app/cave/bottles/actions'
 
 export default function MarkConsumedButton({
     bottleId,

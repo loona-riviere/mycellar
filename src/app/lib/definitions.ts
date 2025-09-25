@@ -27,3 +27,12 @@ export const labelColors: Record<string, string> = {
     sparkling: "Pétillant",
 }
 
+export type Profile = {
+    email?: string;
+    full_name?: string;
+};
+
+export type Member = {
+    user_id: string;
+    profiles?: Profile; // facultatif car join pas garanti
+};

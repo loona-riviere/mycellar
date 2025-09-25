@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
-import type { BottleFormInput } from '../../bottles/_schema'
-import type { ActionState } from '@/app/bottles/actions'
+import type { BottleFormInput } from '@/app/cave/bottles/_schema'
+import type { ActionState } from '@/app/cave/bottles/actions'
 import LoadingButton from '../ui/LoadingButton'
 import LoadingLink from '../ui/LoadingLink'
 import Image from 'next/image'
@@ -61,7 +61,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                     {mode === 'create' ? 'Ajouter une bouteille' : 'Modifier la bouteille'}
                 </h1>
                 <Link
-                    href="/bottles"
+                    href="/cave/bottles"
                     className="inline-block rounded-xl border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50 transition text-sm"
                     prefetch
                 >
@@ -307,7 +307,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                         {mode === 'create' ? 'Enregistrer' : 'Mettre à jour'}
                     </LoadingButton>
                     <LoadingLink
-                        href="/bottles"
+                        href="/cave/bottles"
                         className="rounded-xl border-red-300 px-6 py-2 hover:bg-red-50 transition text-red-700"
                         loadingText="Retour…"
                     >
