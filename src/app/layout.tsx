@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { logout } from "@/app/logout/actions";
-import { LogOut } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -58,24 +55,6 @@ export default async function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
             >
-                {session && (
-                    <header className="flex items-center justify-between border-b px-6 py-3 bg-white shadow-sm">
-                        <h1 className="text-lg font-semibold"><Link href="/bottles">🍷 Ma Cave</Link></h1>
-                        <form action={logout}>
-                            <button
-                                type="submit"
-                                className="flex items-center cursor-pointer gap-1 text-sm text-gray-600 hover:text-black"
-                                title="Se déconnecter"
-                            >
-                                <LogOut className="h-4 w-4" />
-                                <span>Logout</span>
-                            </button>
-                        </form>
-                        <meta name="apple-mobile-web-app-capable" content="yes" />
-
-                    </header>
-                )}
-
                 <main className="flex-1">{children}</main>
 
                 <footer className="border-t px-6 py-4 text-center text-sm text-gray-500 bg-gray-50">

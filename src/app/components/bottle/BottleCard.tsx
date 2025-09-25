@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Pencil, MessageCircle, Star, ImageOff, Award, MapPin } from 'lucide-react'
 import MarkConsumedButton from '@/app/components/ui/MarkConsumedButton'
 import type { Bottle } from '@/app/lib/definitions'
@@ -19,7 +18,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
-        <li className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
+        <li className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition cursor-pointer">
             <div className="flex flex-col sm:flex-row gap-4">
                 {/* Image si présente */}
                 {b.image_url ? (
@@ -164,7 +163,7 @@ export default function BottleCard({ bottle: b, variant }: Props) {
     )
 }
 
-function Stars({ rating }: { rating: number | null }) {
+function Stars({ rating }: Readonly<{ rating: number | null }>) {
     if (!rating || rating <= 0) return null
     return (
         <div className="flex items-center gap-1" title={`${rating}/5`}>

@@ -20,7 +20,6 @@ type Props = {
 
 const initialState: ActionState = { error: null }
 
-
 export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readonly<Props>) {
     const [state, formAction] = useActionState(onSubmit, initialState)
     const [deleting, setDeleting] = useState(false)
@@ -57,58 +56,110 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
 
     return (
         <main className="max-w-2xl mx-auto p-6">
-            <div className="mb-4 flex items-center gap-3">
-                <h1 className="text-2xl font-semibold">
+            <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                <h1 className="text-3xl font-playfair font-semibold text-red-700">
                     {mode === 'create' ? 'Ajouter une bouteille' : 'Modifier la bouteille'}
                 </h1>
-                <Link href="/bottles" className="text-sm underline text-gray-600" prefetch>
+                <Link
+                    href="/bottles"
+                    className="inline-block rounded-xl border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50 transition text-sm"
+                    prefetch
+                >
                     ← Retour
                 </Link>
+
             </div>
 
-            <form action={formAction} className="grid grid-cols-1 gap-4 bg-white p-5 rounded-lg border shadow-sm">
+            <form action={formAction} className="grid grid-cols-1 gap-6 bg-[#fdf7f7] p-6 rounded-2xl border border-red-300 shadow-lg">
                 {/* Domaine / Cuvée */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <InputField label="Domaine / Château *" required id="estate" value={initial.estate ?? ''} placeholder="Château La Tour Carnet..."/>
-                    </div>
-                    <div>
-                        <InputField label="Cuvée" required id="cuvee" value={initial.cuvee ?? ''} placeholder="Vieilles Vignes..."/>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField
+                        label="Domaine / Château *"
+                        required
+                        id="estate"
+                        value={initial.estate ?? ''}
+                        placeholder="Château La Tour Carnet..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
+                    <InputField
+                        label="Cuvée"
+                        id="cuvee"
+                        value={initial.cuvee ?? ''}
+                        placeholder="Vieilles Vignes..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* Appellation / Classification */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <InputField label="Appellation" id="appellation" value={initial.appellation ?? ''} placeholder="Beaujolais-Villages..."/>
-                    </div>
-                    <div>
-                        <InputField label="Classification" id="classification" value={initial.classification ?? ''} placeholder="Premier Cru..."/>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField
+                        label="Appellation"
+                        id="appellation"
+                        value={initial.appellation ?? ''}
+                        placeholder="Beaujolais-Villages..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
+                    <InputField
+                        label="Classification"
+                        id="classification"
+                        value={initial.classification ?? ''}
+                        placeholder="Premier Cru..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* Millésime / Prix */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <InputField required label="Millésime *" id="year" type="number" step={1} min={1900} max={2100} value={initial.year ?? ''} />
-                    </div>
-                    <div>
-                        <InputField label="Prix (€)" id="price" type="number" step={0.01} min={0} value={initial.price ?? ''}/>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField
+                        required
+                        label="Millésime *"
+                        id="year"
+                        type="number"
+                        step={1}
+                        min={1900}
+                        max={2100}
+                        value={initial.year ?? ''}
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
+                    <InputField
+                        label="Prix (€)"
+                        id="price"
+                        type="number"
+                        step={0.01}
+                        min={0}
+                        value={initial.price ?? ''}
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* À boire entre */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <InputField label="À boire entre le" type="number" id="min_year" step={1} min={1900} max={2100} value={initial.min_year ?? ''} placeholder="2024"/>
-                    </div>
-                    <div>
-                        <InputField label="et le" type="number" id="max_year" step={1} min={1900} max={2100} value={initial.max_year ?? ''} placeholder="2028"/>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField
+                        label="À boire entre le"
+                        type="number"
+                        id="min_year"
+                        step={1}
+                        min={1900}
+                        max={2100}
+                        value={initial.min_year ?? ''}
+                        placeholder="2024"
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
+                    <InputField
+                        label="et le"
+                        type="number"
+                        id="max_year"
+                        step={1}
+                        min={1900}
+                        max={2100}
+                        value={initial.max_year ?? ''}
+                        placeholder="2028"
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* Couleur / Producteur */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="color" className="block text-sm font-medium">Couleur *</label>
                         <select
@@ -116,7 +167,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                             name="color"
                             required
                             defaultValue={initial.color ?? ''}
-                            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
                         >
                             <option value="">—</option>
                             <option value="red">Rouge</option>
@@ -125,19 +176,31 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                             <option value="sparkling">Pétillant</option>
                         </select>
                     </div>
-                    <div>
-                        <InputField label="Producteur" id="producer" value={initial.producer ?? ''} placeholder="Bernard Magres..."/>
-                    </div>
+                    <InputField
+                        label="Producteur"
+                        id="producer"
+                        value={initial.producer ?? ''}
+                        placeholder="Bernard Magres..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* Région / Cépages */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <InputField label="Région" id="region" value={initial.region ?? ''} placeholder="Bourgogne..."/>
-                    </div>
-                    <div>
-                        <InputField label="Cépages" id="grapes" value={initial.grapes ?? ''} placeholder="Pinot Noir, Gamay..."/>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField
+                        label="Région"
+                        id="region"
+                        value={initial.region ?? ''}
+                        placeholder="Bourgogne..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
+                    <InputField
+                        label="Cépages"
+                        id="grapes"
+                        value={initial.grapes ?? ''}
+                        placeholder="Pinot Noir, Gamay..."
+                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
+                    />
                 </div>
 
                 {/* Upload image */}
@@ -147,24 +210,25 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                     </label>
                     <div className="flex items-center gap-4">
                         {bottleImage ? (
-                            <Image
-                                loading="lazy"
-                                src={bottleImage.src}
-                                alt={bottleImage.alt}
-                                className="w-32 h-32 object-contain rounded-md border"
-                                width={200}
-                                height={200}
-                            />
+                            <div className="w-32 h-32 bg-white rounded-xl border border-gray-300 shadow-sm flex items-center justify-center overflow-hidden hover:shadow-lg transition-shadow">
+                                <Image
+                                    loading="lazy"
+                                    src={bottleImage.src}
+                                    alt={bottleImage.alt}
+                                    className="w-full h-full object-contain"
+                                    width={200}
+                                    height={200}
+                                />
+                            </div>
                         ) : (
-                            <div
-                                className="w-32 h-32 border rounded-md flex items-center justify-center text-gray-400 text-sm">
-                                {"Pas d`image"}
+                            <div className="w-32 h-32 border-2 border-dashed border-red-300 rounded-xl flex items-center justify-center text-gray-400 text-sm italic">
+                                Pas d`image
                             </div>
                         )}
 
                         <label
                             htmlFor="image"
-                            className="cursor-pointer rounded-md border px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100"
+                            className="cursor-pointer rounded-xl border px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-sm transition"
                         >
                             Choisir un fichier
                         </label>
@@ -193,7 +257,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                         name="comm"
                         rows={2}
                         defaultValue={initial.comm ?? ''}
-                        className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                        className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
                         placeholder="Infos supplémentaires…"
                     />
                 </div>
@@ -214,10 +278,8 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                 </div>
 
                 {consumed && (
-                    <div className="grid grid-cols-2 gap-4">
-                        {/* Note avec étoiles */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <RatingStars rating={rating} setRating={setRating}/>
-
                         <div>
                             <label htmlFor="notes" className="block text-sm font-medium">
                                 Mon avis
@@ -227,7 +289,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                                 name="notes"
                                 rows={1}
                                 defaultValue={initial.notes ?? ''}
-                                className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                                className="mt-1 w-full rounded-xl border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
                                 placeholder="Infos supplémentaires…"
                             />
                         </div>
@@ -236,14 +298,19 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
 
                 {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
-                <div className="flex items-center gap-3">
+                {/* Boutons */}
+                <div className="flex flex-col md:flex-row gap-3 mt-4">
                     <LoadingButton
-                        className="rounded-md bg-black px-4 py-2 text-white"
+                        className="rounded-xl bg-red-700 px-6 py-2 text-white font-medium hover:bg-red-600 transition"
                         pendingText={mode === 'create' ? 'Enregistrement…' : 'Mise à jour…'}
                     >
                         {mode === 'create' ? 'Enregistrer' : 'Mettre à jour'}
                     </LoadingButton>
-                    <LoadingLink href="/bottles" className="rounded-md border px-4 py-2" loadingText="Retour…">
+                    <LoadingLink
+                        href="/bottles"
+                        className="rounded-xl border-red-300 px-6 py-2 hover:bg-red-50 transition text-red-700"
+                        loadingText="Retour…"
+                    >
                         Annuler
                     </LoadingLink>
                 </div>
@@ -262,7 +329,7 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                     className="mt-4 flex justify-end"
                 >
                     <LoadingButton
-                        className="cursor-pointer rounded-md border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">
+                        className="cursor-pointer rounded-xl border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">
                         {deleting ? 'Suppression…' : 'Supprimer'}
                     </LoadingButton>
                 </form>
