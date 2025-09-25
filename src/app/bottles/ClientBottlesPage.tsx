@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react"
 import NotificationsPanel from "@/app/components/NotificationsPanel"
 import BottleList from "@/app/components/bottle/BottleList"
-import { Bottle } from "@/app/lib/definitions"
+import { Bottle, labelColors } from "@/app/lib/definitions"
 import { BottleFilters, SortKey } from '@/app/components/BottleFilters'
 import Link from "next/link"
 import { Plus } from "lucide-react"
@@ -16,7 +16,7 @@ interface Props {
 export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedRegion, setSelectedRegion] = useState("")
-    const [selectedCuvee, setSelectedCuvee] = useState("")
+    const [selectedColor, setSelectedColor] = useState("")
     const [sortBy, setSortBy] = useState<SortKey>("ready_asc")
 
     const filteredBottles = useMemo(() => {
@@ -27,18 +27,18 @@ export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
                     (b.cuvee?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
                     (b.region?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
                 const matchesRegion = selectedRegion === "" || b.region === selectedRegion
-                const matchesCuvee = selectedCuvee === "" || b.cuvee === selectedCuvee
-                return matchesSearch && matchesRegion && matchesCuvee
+                const matchesColor = selectedColor === "" || labelColors[b.color] === selectedColor
+                return matchesSearch && matchesRegion && matchesColor
             })
             .sort((a, b) => {
                 switch (sortBy) {
                     case "year": return (b.year || 0) - (a.year || 0)
-                    case "price": return (b.price || 0) - (a.price || 0)
+                    case "price": return (b.price ?? 0) - (a.price ?? 0)
                     case "name": return a.estate.localeCompare(b.estate)
                     default: return 0
                 }
             })
-    }, [initialBottles, searchTerm, selectedRegion, selectedCuvee, sortBy])
+    }, [initialBottles, searchTerm, selectedRegion, selectedColor, sortBy])
 
 
     const counts = (initialBottles ?? []).reduce(
@@ -72,7 +72,7 @@ export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
             </div>
 
             {/* Notifications */}
-            <NotificationsPanel bottles={filteredBottles} />
+            <NotificationsPanel bottles={initialBottles} />
 
             {/* Stock Summary */}
             <StockSummary counts={counts} total={initialBottles.length} />
@@ -84,19 +84,25 @@ export default function ClientBottlesPage({ initialBottles }: Readonly<Props>) {
                 setSearchTerm={setSearchTerm}
                 selectedRegion={selectedRegion}
                 setSelectedRegion={setSelectedRegion}
-                selectedCuvee={selectedCuvee}
-                setSelectedCuvee={setSelectedCuvee}
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
             />
 
 
             {/* Liste des bouteilles */}
-            <BottleList bottles={filteredBottles} variant="active" />
+            {initialBottles.length == 0 ?
+                (<p className = "mt-4 text-center text-gray-500 italic" >
+                    Vous n`avez aucune bouteille à déguster 🍷
+                </p>) :
+                <BottleList bottles={filteredBottles} variant="active"/>
+            }
 
-            {/* Lien vers les terminées */}
-            <div className="text-center mt-6">
-                <Link href="/bottles/finished" className="text-sm underline text-gray-600">
+{/* Lien vers les terminées */
+}
+<div className="text-center mt-6">
+    <Link href="/bottles/finished" className="text-sm underline text-gray-600">
                     Voir les terminées
                 </Link>
             </div>

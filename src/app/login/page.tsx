@@ -43,7 +43,7 @@ export default async function LoginPage() {
 
                 <div className="flex flex-col gap-2">
                     <LoadingButton
-                        className="w-full rounded-md bg-black px-4 py-2 text-white"
+                        className="w-full rounded-md bg-red-800 px-4 py-2 text-white"
                         pendingText="Connexion…"
                         type="submit"
                         formAction={login}

@@ -20,10 +20,6 @@ export type Bottle = {
     created_at: Date;
     image_url: string;
 }
-export type ActionState = {
-    error: string | null;
-};
-
 export const labelColors: Record<string, string> = {
     red: "Rouge",
     white: "Blanc",

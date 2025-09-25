@@ -1,15 +1,15 @@
 "use client"
 
 import { Search, Filter } from "lucide-react"
-import type { Bottle } from "@/app/lib/definitions"
+import { Bottle } from "@/app/lib/definitions"
 
 interface BottleFiltersProps {
     searchTerm: string
     setSearchTerm: (term: string) => void
     selectedRegion: string
     setSelectedRegion: (region: string) => void
-    selectedCuvee: string
-    setSelectedCuvee: (cuvee: string) => void
+    selectedColor: string
+    setSelectedColor: (color: string) => void
     sortBy: SortKey
     setSortBy: (val: SortKey) => void
     bottles: Bottle[]
@@ -22,16 +22,17 @@ export function BottleFilters({
                                   setSearchTerm,
                                   selectedRegion,
                                   setSelectedRegion,
-                                  selectedCuvee,
-                                  setSelectedCuvee,
+                                  selectedColor,
+                                  setSelectedColor,
                                   sortBy,
                                   setSortBy,
                                   bottles,
-                              }: BottleFiltersProps) {
+                              }: Readonly<BottleFiltersProps>) {
 
     // Générer dynamiquement les options de région et cuvée depuis tes bouteilles
     const regions = Array.from(new Set(bottles.map(b => b.region).filter(Boolean)))
-    const cuvees = Array.from(new Set(bottles.map(b => b.cuvee).filter(Boolean)))
+    const colors = ["Rouge", "Blanc", "Rosé","Pétillant"];
+
 
     const sortOptions = [
         { value: "name", label: "Nom" },
@@ -43,15 +44,15 @@ export function BottleFilters({
     const clearFilters = () => {
         setSearchTerm("")
         setSelectedRegion("")
-        setSelectedCuvee("")
+        setSelectedColor("")
         setSortBy("name")
     }
 
     // Calcul du nombre de filtres actifs
     const activeFilters = [
-        searchTerm ? searchTerm : null,
-        selectedRegion ? selectedRegion : null,
-        selectedCuvee ? selectedCuvee : null,
+        searchTerm || null,
+        selectedRegion || null,
+        selectedColor || null,
     ].filter(Boolean);
 
     const activeFiltersCount = activeFilters.length;
@@ -87,12 +88,12 @@ export function BottleFilters({
 
                 {/* Cuvée */}
                 <select
-                    value={selectedCuvee}
-                    onChange={e => setSelectedCuvee(e.target.value)}
+                    value={selectedColor}
+                    onChange={e => setSelectedColor(e.target.value)}
                     className="w-full sm:w-40 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-800 cursor-pointer"
                 >
-                    <option value="">Toutes cuvées</option>
-                    {cuvees.map(c => (
+                    <option value="">Toues les types</option>
+                    {colors.map(c => (
                         <option key={c} value={c}>{c}</option>
                     ))}
                 </select>
@@ -120,8 +121,8 @@ export function BottleFilters({
                     {selectedRegion && (
                         <span className="bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded">{selectedRegion}</span>
                     )}
-                    {selectedCuvee && (
-                        <span className="bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded">{selectedCuvee}</span>
+                    {selectedColor && (
+                        <span className="bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded">{selectedColor}</span>
                     )}
                     <button
                         onClick={clearFilters}

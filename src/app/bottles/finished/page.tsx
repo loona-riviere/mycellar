@@ -27,16 +27,10 @@ export default async function FinishedBottlesPage() {
                     loadingText="Retour…"
                     aria-label="Retour à la cave"
                 >
-                    ←
-                    <span className="ml-2 hidden sm:inline">Retour à la cave</span>
+                    <span className="ml-2 hidden sm:inline">← Retour à la cave</span>
                 </LoadingLink>
             </div>
-
-            {(!bottles || bottles.length === 0) ? (
-                <p className="text-gray-500">Aucune bouteille bue pour l’instant.</p>
-            ) : (
                 <BottleList bottles={bottles} variant="finished" />
-            )}
         </main>
     )
 }
