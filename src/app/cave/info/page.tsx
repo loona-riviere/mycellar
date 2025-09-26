@@ -92,6 +92,8 @@ export default async function CaveInfoPage() {
         return acc;
     }, {} as Record<string, number>);
 
+    const colorOrder = ['Rouge', 'Blanc', 'Rosé', 'Pétillant'];
+
     // Statistiques par région
     const regionStats = bottlesTyped.reduce((acc, bottle) => {
         const region = bottle.region ?? 'Non spécifiée';
@@ -113,10 +115,21 @@ export default async function CaveInfoPage() {
 
     // Statistiques par classification
     const classificationStats = bottlesTyped.reduce((acc, bottle) => {
-        const classification = bottle.classification ?? 'Non classé';
+        const classification = (bottle.classification && bottle.classification != "") ? bottle.classification : 'Non classé';
         acc[classification] = (acc[classification] || 0) + 1;
         return acc;
     }, {} as Record<string, number>);
+
+    const classificationOrder = [
+        'Grand Cru Classé',
+        '1er Cru Classé',
+        '2ème Cru Classé',
+        '3ème Cru Classé',
+        '4ème Cru Classé',
+        'Villages / AOC',
+        'Non classé'
+    ];
+
 
     // Bouteille la mieux notée
     const bestRated = bottlesTyped.reduce((max, bottle) => {
@@ -143,17 +156,17 @@ export default async function CaveInfoPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="rounded-lg bg-gray-100 p-4">
                     <h2 className="text-lg font-semibold mb-2">Bouteilles</h2>
-                    <p className="text-2xl font-bold text-blue-600">{bottles?.length ?? "Aucune bouteille"}</p>
+                    <p className="text-2xl font-bold text-red-700">{bottles?.length ?? "Aucune bouteille"}</p>
                 </div>
 
                 <div className="rounded-lg bg-gray-100 p-4">
                     <h2 className="text-lg font-semibold mb-2">Membres</h2>
-                    <p className="text-2xl font-bold text-green-600">{members.length}</p>
+                    <p className="text-2xl font-bold text-red-700">{members.length}</p>
                 </div>
 
                 <div className="rounded-lg bg-gray-100 p-4">
                     <h2 className="text-lg font-semibold mb-2">Note moyenne</h2>
-                    <p className="text-2xl font-bold text-orange-600">
+                    <p className="text-2xl font-bold text-red-700">
                         {averageRating > 0 ? `${averageRating.toFixed(1)}/5` : 'N/A'}
                     </p>
                 </div>
@@ -165,12 +178,14 @@ export default async function CaveInfoPage() {
                 <div className="rounded-lg bg-white border p-6">
                     <h3 className="text-xl font-semibold mb-4">Par couleur</h3>
                     <div className="space-y-2">
-                        {Object.entries(colorStats).map(([color, count]) => (
-                            <div key={color} className="flex justify-between items-center">
-                                <span className="capitalize">{color}</span>
-                                <span className="font-semibold">{count}</span>
-                            </div>
-                        ))}
+                        {colorOrder
+                            .filter((key) => colorStats[key] > 0)
+                            .map((key) => (
+                                <div key={key} className="flex justify-between items-center">
+                                    <span className="capitalize">{key}</span>
+                                    <span className="font-semibold">{colorStats[key]}</span>
+                                </div>
+                            ))}
                     </div>
                 </div>
 
@@ -196,22 +211,24 @@ export default async function CaveInfoPage() {
                 <div className="rounded-lg bg-white border p-6">
                     <h3 className="text-xl font-semibold mb-4">Classifications</h3>
                     <div className="space-y-2">
-                        {Object.entries(classificationStats).map(([classification, count]) => (
-                            <div key={classification} className="flex justify-between items-center">
-                                <span className="text-sm">{classification}</span>
-                                <span className="font-semibold">{count}</span>
-                            </div>
-                        ))}
-                    </div>
+                        {classificationOrder
+                            .filter((key) => classificationStats[key] > 0) // ← garde uniquement celles avec > 0
+                            .map((key) => (
+                                <div key={key} className="flex justify-between items-center">
+                                    <span className="text-sm">{key}</span>
+                                    <span className="font-semibold">{classificationStats[key]}</span>
+                                </div>
+                            ))}
                 </div>
+            </div>
 
-                {/* Répartition par décennie */}
-                <div className="rounded-lg bg-white border p-6">
-                    <h3 className="text-xl font-semibold mb-4">Par décennie</h3>
-                    <div className="space-y-2">
-                        {Object.entries(decadeStats)
-                            .sort(([a], [b]) => b.localeCompare(a))
-                            .map(([decade, count]) => (
+            {/* Répartition par décennie */}
+            <div className="rounded-lg bg-white border p-6">
+                <h3 className="text-xl font-semibold mb-4">Par décennie</h3>
+                <div className="space-y-2">
+                    {Object.entries(decadeStats)
+                        .sort(([a], [b]) => b.localeCompare(a))
+                        .map(([decade, count]) => (
                                 <div key={decade} className="flex justify-between items-center">
                                     <span>{decade}</span>
                                     <span className="font-semibold">{count}</span>

@@ -8,8 +8,7 @@ import LoadingButton from '../ui/LoadingButton'
 import LoadingLink from '../ui/LoadingLink'
 import Image from 'next/image'
 import heic2any from 'heic2any'
-import { RatingStars } from '@/app/components/RatingStars';
-import { InputField } from '@/app/components/ui/InputField';
+import { RatingStars } from '@/app/components/RatingStars'
 
 type Props = {
     mode: 'create' | 'edit'
@@ -33,8 +32,8 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
         try {
             setIsProcessing(true)
             if (file.type === 'image/heic') {
-                const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.9 })
-                const jpegFile = new File([blob as Blob], `${file.name}.jpeg`, { type: 'image/jpeg' })
+                const blob = await heic2any({blob: file, toType: 'image/jpeg', quality: 0.9})
+                const jpegFile = new File([blob as Blob], `${file.name}.jpeg`, {type: 'image/jpeg'})
                 setPreview(URL.createObjectURL(jpegFile))
             } else {
                 setPreview(URL.createObjectURL(file))
@@ -47,8 +46,8 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
     }
 
     const getBottleImage = () => {
-        if (preview) return { src: preview, alt: "Aperçu de la bouteille" }
-        if (initial.image_url) return { src: initial.image_url, alt: "Bouteille actuelle" }
+        if (preview) return {src: preview, alt: "Aperçu de la bouteille"}
+        if (initial.image_url) return {src: initial.image_url, alt: "Bouteille actuelle"}
         return null
     }
 
@@ -67,95 +66,151 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                 >
                     ← Retour
                 </Link>
-
             </div>
 
-            <form action={formAction} className="grid grid-cols-1 gap-6 bg-[#fdf7f7] p-6 rounded-2xl border border-red-300 shadow-lg">
+            <form action={formAction}
+                  className="grid grid-cols-1 gap-6 bg-[#fdf7f7] p-6 rounded-2xl border border-red-300 shadow-lg">
                 {/* Domaine / Cuvée */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField
-                        label="Domaine / Château *"
-                        required
-                        id="estate"
-                        value={initial.estate ?? ''}
-                        placeholder="Château La Tour Carnet..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
-                    <InputField
-                        label="Cuvée"
-                        id="cuvee"
-                        value={initial.cuvee ?? ''}
-                        placeholder="Vieilles Vignes..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    <div>
+                        <label htmlFor="estate" className="block text-sm font-medium">Domaine / Château *</label>
+                        <input
+                            required
+                            id="estate"
+                            name="estate"
+                            defaultValue={initial.estate ?? ''}
+                            placeholder="Château La Tour Carnet..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="cuvee" className="block text-sm font-medium">Cuvée</label>
+                        <input
+                            id="cuvee"
+                            name="cuvee"
+                            defaultValue={initial.cuvee ?? ''}
+                            placeholder="Vieilles Vignes..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
                 </div>
 
                 {/* Appellation / Classification */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField
-                        label="Appellation"
-                        id="appellation"
-                        value={initial.appellation ?? ''}
-                        placeholder="Beaujolais-Villages..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
-                    <InputField
-                        label="Classification"
-                        id="classification"
-                        value={initial.classification ?? ''}
-                        placeholder="Premier Cru..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    {/* Appellation */}
+                    <div>
+                        <label htmlFor="appellation" className="block text-sm font-medium">Appellation</label>
+                        <input
+                            list="appellations"
+                            id="appellation"
+                            name="appellation"
+                            defaultValue={initial.appellation ?? ''}
+                            placeholder="Sans appellation"
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                        <datalist id="appellations">
+                            <option value="AOP Terrasses du Larzac"/>
+                            <option value="Beaujolais-Villages"/>
+                            <option value="Bourgogne"/>
+                            <option value="Gigondas"/>
+                            <option value="Haut Médoc"/>
+                            <option value="Mercurey"/>
+                            <option value="Margaux"/>
+                            <option value="Monthélie"/>
+                            <option value="Régnié"/>
+                            <option value="Saint Emilion"/>
+                            <option value="Saint Joseph"/>
+                            <option value="Saumur Champigny"/>
+                            <option value="Vosnes-Romanée"/>
+                        </datalist>
+
+                    </div>
+
+                    {/* Classification */}
+                    <div>
+                        <label htmlFor="classification" className="block text-sm font-medium">Classification</label>
+                        <input
+                            list="classifications"
+                            id="classification"
+                            name="classification"
+                            defaultValue={initial.classification ?? ''}
+                            placeholder="Premier Cru..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                        <datalist id="classifications">
+                            <option value="Sans classification"/>
+                            <option value="Grand Cru Classé"/>
+                            <option value="1er Cru Classé"/>
+                            <option value="2ème Cru Classé"/>
+                            <option value="3ème Cru Classé"/>
+                            <option value="4ème Cru Classé"/>
+                            <option value="Villages / AOC"/>
+                        </datalist>
+                    </div>
                 </div>
 
                 {/* Millésime / Prix */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField
-                        required
-                        label="Millésime *"
-                        id="year"
-                        type="number"
-                        step={1}
-                        min={1900}
-                        max={2100}
-                        value={initial.year ?? ''}
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
-                    <InputField
-                        label="Prix (€)"
-                        id="price"
-                        type="number"
-                        step={0.01}
-                        min={0}
-                        value={initial.price ?? ''}
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    <div>
+                        <label htmlFor="year" className="block text-sm font-medium">Millésime *</label>
+                        <input
+                            required
+                            type="number"
+                            id="year"
+                            name="year"
+                            step={1}
+                            min={1900}
+                            max={2100}
+                            defaultValue={initial.year ?? ''}
+                            placeholder={'2020'}
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="price" className="block text-sm font-medium">Prix (€)</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            step={0.01}
+                            min={0}
+                            placeholder={'10.00'}
+                            defaultValue={initial.price ?? ''}
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
                 </div>
 
                 {/* À boire entre */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField
-                        label="À boire entre le"
-                        type="number"
-                        id="min_year"
-                        step={1}
-                        min={1900}
-                        max={2100}
-                        value={initial.min_year ?? ''}
-                        placeholder="2024"
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
-                    <InputField
-                        label="et le"
-                        type="number"
-                        id="max_year"
-                        step={1}
-                        min={1900}
-                        max={2100}
-                        value={initial.max_year ?? ''}
-                        placeholder="2028"
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    <div>
+                        <label htmlFor="min_year" className="block text-sm font-medium">À boire entre le</label>
+                        <input
+                            type="number"
+                            id="min_year"
+                            name="min_year"
+                            step={1}
+                            min={1900}
+                            max={2100}
+                            defaultValue={initial.min_year ?? ''}
+                            placeholder="2024"
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="max_year" className="block text-sm font-medium">et le</label>
+                        <input
+                            type="number"
+                            id="max_year"
+                            name="max_year"
+                            step={1}
+                            min={1900}
+                            max={2100}
+                            defaultValue={initial.max_year ?? ''}
+                            placeholder="2028"
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
                 </div>
 
                 {/* Couleur / Producteur */}
@@ -176,31 +231,40 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                             <option value="sparkling">Pétillant</option>
                         </select>
                     </div>
-                    <InputField
-                        label="Producteur"
-                        id="producer"
-                        value={initial.producer ?? ''}
-                        placeholder="Bernard Magres..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    <div>
+                        <label htmlFor="producer" className="block text-sm font-medium">Producteur</label>
+                        <input
+                            id="producer"
+                            name="producer"
+                            defaultValue={initial.producer ?? ''}
+                            placeholder="Bernard Magres..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
                 </div>
 
                 {/* Région / Cépages */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField
-                        label="Région"
-                        id="region"
-                        value={initial.region ?? ''}
-                        placeholder="Bourgogne..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
-                    <InputField
-                        label="Cépages"
-                        id="grapes"
-                        value={initial.grapes ?? ''}
-                        placeholder="Pinot Noir, Gamay..."
-                        className="rounded-xl border-gray-300 focus:outline-none focus:ring-1 focus:ring-red-800"
-                    />
+                    <div>
+                        <label htmlFor="region" className="block text-sm font-medium">Région</label>
+                        <input
+                            id="region"
+                            name="region"
+                            defaultValue={initial.region ?? ''}
+                            placeholder="Bourgogne..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="grapes" className="block text-sm font-medium">Cépages</label>
+                        <input
+                            id="grapes"
+                            name="grapes"
+                            defaultValue={initial.grapes ?? ''}
+                            placeholder="Pinot Noir, Gamay..."
+                            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-800"
+                        />
+                    </div>
                 </div>
 
                 {/* Upload image */}
@@ -210,7 +274,8 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                     </label>
                     <div className="flex items-center gap-4">
                         {bottleImage ? (
-                            <div className="w-32 h-32 bg-white rounded-xl border border-gray-300 shadow-sm flex items-center justify-center overflow-hidden hover:shadow-lg transition-shadow">
+                            <div
+                                className="w-32 h-32 bg-white rounded-xl border border-gray-300 shadow-sm flex items-center justify-center overflow-hidden hover:shadow-lg transition-shadow">
                                 <Image
                                     loading="lazy"
                                     src={bottleImage.src}
@@ -221,7 +286,8 @@ export default function BottleForm({ mode, initial, onSubmit, onDelete }: Readon
                                 />
                             </div>
                         ) : (
-                            <div className="w-32 h-32 border-2 border-dashed border-red-300 rounded-xl flex items-center justify-center text-gray-400 text-sm italic">
+                            <div
+                                className="w-32 h-32 border-2 border-dashed border-red-300 rounded-xl flex items-center justify-center text-gray-400 text-sm italic">
                                 Pas d`image
                             </div>
                         )}
