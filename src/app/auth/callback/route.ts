@@ -11,5 +11,5 @@ export async function GET(request: Request) {
         await supabase.auth.exchangeCodeForSession(code)
     }
 
-    return NextResponse.redirect(new URL('/bottles', request.url))
+    return NextResponse.redirect(new URL('/cave/bottles', request.url))
 }

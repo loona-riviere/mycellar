@@ -27,7 +27,7 @@ export async function markConsumed(formData: FormData) {
 
     if (error) console.error(error)
 
-    revalidatePath('/bottles')
+    revalidatePath('/cave/bottles')
 }
 
 export async function createBottle(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -83,7 +83,7 @@ export async function createBottle(_prev: ActionState, formData: FormData): Prom
         }
     }
 
-    redirect('/bottles')
+    redirect('/cave/bottles')
 }
 
 export async function updateBottle(id: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -135,7 +135,7 @@ export async function updateBottle(id: string, _prev: ActionState, formData: For
     }).eq('id', id)
 
     if (error) return { error: error.message }
-    redirect('/bottles')
+    redirect('/cave/bottles')
 }
 
 export async function deleteBottle(id: string) {
@@ -145,5 +145,5 @@ export async function deleteBottle(id: string) {
 
     const { error } = await supabase.from('bottles').delete().eq('id', id)
     if (error) throw error
-    redirect('/bottles')
+    redirect('/cave/bottles')
 }

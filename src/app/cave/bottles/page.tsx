@@ -28,7 +28,7 @@ export default async function BottlesPage() {
     const caveId = caveLink.cave_id
 
     // 3️⃣ Récupérer le nom de la cave
-    const { data: caveData, error: caveError } = await supabase
+    const { data: caveData } = await supabase
         .from("caves")
         .select("name")
         .eq("id", caveId)
