@@ -1,6 +1,5 @@
 // src/app/cave/layout.tsx
 import CaveHeader from "@/app/components/CaveHeader"
-import CaveMenu from "@/app/components/CaveMenu"
 import { createClient } from "@/utils/supabase/server"
 
 export default async function CaveLayout({ children }: Readonly<{ children: React.ReactNode }>) {

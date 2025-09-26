@@ -92,7 +92,7 @@ export function BottleFilters({
                     onChange={e => setSelectedColor(e.target.value)}
                     className="w-full sm:w-40 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-800 cursor-pointer"
                 >
-                    <option value="">Toues les types</option>
+                    <option value="">Tous les types</option>
                     {colors.map(c => (
                         <option key={c} value={c}>{c}</option>
                     ))}

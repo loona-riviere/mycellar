@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
     "@heroui/skeleton": "^2.2.16",
     "@hookform/resolvers": "^5.2.2",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
@@ -24,6 +26,7 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.63.0",
     "react-modal-image": "^2.6.0",
+    "supabase": "^2.45.5",
     "zod": "^4.1.11"
   },
   "devDependencies": {

@@ -12,11 +12,11 @@ const COLORS: { key: 'red' | 'white' | 'rose' | 'sparkling'; label: string; emoj
     { key: 'sparkling', label: 'Pétillant(s)', emoji: '🍾', bg: 'bg-cyan-50' },
 ]
 
-export default function StockSummary({ counts, total }: Props) {
+export default function StockSummary({ counts, total }: Readonly<Props>) {
     const safe = (k: 'red' | 'white' | 'rose' | 'sparkling') => counts[k] ?? 0
 
     return (
-        <section className="rounded-xl border bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 p-4 shadow-sm">
+        <section className="rounded-xl border border-gray-200 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3">
                 <div>
                     <p className="text-xs uppercase tracking-wide text-gray-500">En stock</p>
